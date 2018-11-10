@@ -1,0 +1,79 @@
+#main {
+	border-collapse: collapse;
+
+	right: 2%;
+	width: 242px;
+	top: 150px;
+	min-width: 120px;
+	z-index: 10;
+
+	font-family: Arial;
+	font-size: 14px;
+
+	cursor: default;
+	position:fixed
+}
+
+.col, .col-7, .col-2, .col-3, .col-5 {
+	border: 1px solid #000000;
+}
+
+.word-parsed {
+	font-size: 12px;
+	height: 15px;
+	padding: 0;
+	cursor: pointer;
+}
+
+#minus-mode-on,
+#minus-mode-off {
+	
+	text-decoration: none;
+	color: #1a3dc1;
+	border-bottom: 1px dotted #1a3dc1;
+	cursor: pointer;
+}
+
+
+.plus-button,
+.minus-button {
+	cursor: pointer;
+    border: 1px dotted #7b7a7a;
+    border-radius: 18px;
+    padding: 0 4px;
+    margin: 0 8px 0 0;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.plus-button:hover,
+.minus-button:hover {
+	background-color: #fad8d9;
+}
+
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+#top-row {
+	height: 47px;
+	background-color: rgba(216, 216, 216, 1);
+}
+
+
+#span-logo {
+	background-repeat: no-repeat;
+	display: inline-block;
+	background: url(https://rocont.ru/images/logo.png);
+	max-width: 100%;
+	position: absolute;
+	
+}
