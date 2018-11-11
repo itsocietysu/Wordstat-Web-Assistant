@@ -1,12 +1,12 @@
 #main {
-	border-collapse: collapse;
-
-	right: 2%;
+	padding-right: 0px;
+	padding-left: 0px;
+	right: 1%;
 	width: 242px;
-	top: 150px;
-	min-width: 120px;
+	top: 100px;
+	/*min-width: 120px;*/
 	z-index: 10;
-
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 	font-family: Arial;
 	font-size: 14px;
 
@@ -14,9 +14,9 @@
 	position:fixed
 }
 
-.col, .col-7, .col-2, .col-3, .col-5 {
+/*.col, .col-7, .col-2, .col-3, .col-5 {
 	border: 1px solid #000000;
-}
+}*/
 
 .word-parsed {
 	font-size: 12px;
@@ -63,17 +63,214 @@
   }
 }
 
-#top-row {
+#row-top {
 	height: 47px;
+	line-height: 47px;
+	background-color: rgba(216, 216, 216, 1);
+}
+#img-logo {
+	margin-left: 15px;
+	background: url('https://image.ibb.co/iCjHhq/logo.png');
+	background-size: 32px 32px;
+	background-repeat: no-repeat;
+	height: 32px;
+	width: 32px;
+	vertical-align: middle;
+}
+
+#img-range {
+	margin-left: 108px;
+	background: url('https://image.ibb.co/ke4Hhq/range.png');
+	background-size: 24px 25px;
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 24px;
+	vertical-align: middle;
+}
+#img-range:hover {
+	background: url('https://image.ibb.co/k9n9xq/range2.png');
+	background-size: 24px 25px;
+	background-repeat: no-repeat;
+}
+
+#img-export {
+	margin-left: 23px;
+	background: url('https://image.ibb.co/drab8V/export.png');
+	background-size: 24px 25px;
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 24px;
+	vertical-align: middle;
+}
+#img-export:hover {
+	background: url('https://image.ibb.co/byUYOV/export2.png');
+	background-size: 24px 25px;
+	background-repeat: no-repeat;
+}
+
+
+#row-key-words {
+	height: 36px;
+	line-height: 36px;
+	background-color: #ffffff;
+}
+.span-title-words {
+	position: absolute;
+	margin-left: 20px;
+	font-family: 'PF DinText Pro';
+	font-size: 24px;
+	color: rgba(66, 57, 57, 1);
+	text-align: left;
+}
+
+
+.row-actions {
+	height: 41px;
+	line-height: 41px;
+	background-color: rgba(216, 216, 216, 1);
+}
+.img-action {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+
+
+.img-add {
+	background: url('https://image.ibb.co/j54pCq/add.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	height: 24px;
+	width: 24px;
+	vertical-align: middle;
+}
+.img-add:hover {
+	background: url('https://image.ibb.co/kWXH0A/add2.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+}
+#img-add-plus {
+	margin-left: 20px;
+}
+#img-add-minus {
+	margin-left: 40px;
+}
+
+.img-download {
+	background: url('https://image.ibb.co/kHbQkA/dawnload.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	height: 24px;
+	width: 24px;
+	vertical-align: middle;
+}
+.img-download:hover {
+	background: url('https://image.ibb.co/b6fC0A/download2.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+}
+#img-download-plus {
+	margin-left: 22px;
+}
+#img-download-minus {
+	margin-left: 22px;
+}
+
+.img-copy {
+	background: url('https://image.ibb.co/d38cyV/copy.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	height: 24px;
+	width: 24px;
+	vertical-align: middle;
+}
+.img-copy:hover {
+	background: url('https://image.ibb.co/d38cyV/copy.png');
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+}
+#img-copy-plus {
+	margin-left: 22px;
+}
+#img-copy-minus {
+	margin-left: 22px;
+}
+
+#img-copy-range {
+	vertical-align: top;
+	background: url('https://image.ibb.co/g38XXq/copy-range.png');
+	background-size: 33px 28px;
+	background-repeat: no-repeat;
+	height: 28px;
+	width: 33px;
+	margin-top: 9px;
+	margin-left: 15.7px;
+}
+#img-copy-range:hover {
+	background: url('https://image.ibb.co/k1AO7q/copy-range2.png');
+	background-size: 33px 28px;
+	background-repeat: no-repeat;
+}
+
+.img-delete {
+	background: url('https://image.ibb.co/iChy5A/delete.png');
+	background-size: 24px 25.62px;
+	background-repeat: no-repeat;
+	height: 25.62px;
+	width: 24px;
+	vertical-align: middle;
+}
+.img-delete:hover {
+	background: url('https://image.ibb.co/eACdOV/delete2.png');
+	background-size: 24px 25.62px;
+	background-repeat: no-repeat;
+}
+#img-delete-plus {
+	margin-left: 14px;
+}
+#img-delete-minus {
+	margin-left: 16px;
+}
+
+#words-list {
+	background-color: #ffffff;
+}
+.list-group {
+	list-style-type: none;
+	height: 150px;
+	overflow-y:  auto;
+	padding: 8px 0px 0px 20px;
+}
+.list-group li {
+	padding-top: 5px;
+	
+	position: relative;
+	font-family: 'PF DinText Pro';
+	font-size: 18px;
+}
+.list-group li span {
+	display: inline-block;
+	margin-right: 55px;
+	color: rgba(66, 57, 57, 1);
+	text-decoration: none;
+}
+.words-del {
+	position: absolute;
+	right: 25px;
+	top: 13px;
+	background: url('https://image.ibb.co/n5QniV/minus.png');
+	display:  block;
+	width: 24px;
+	height: 5px;
+	cursor: pointer;
+	opacity: 0.7;
+}
+.words-del:hover {
+	opacity: 1;
+}
+
+#line-separation {
+	height: 5px;
 	background-color: rgba(216, 216, 216, 1);
 }
 
-
-#span-logo {
-	background-repeat: no-repeat;
-	display: inline-block;
-	background: url(https://rocont.ru/images/logo.png);
-	max-width: 100%;
-	position: absolute;
-	
-}

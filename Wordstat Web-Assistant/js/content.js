@@ -8,48 +8,76 @@ var wordstatWebAssistantLoad = function ($, window) {
     // Основной блок (для отслеживания изменений)
     var contentBlock = $('.b-wordstat-content');
 
+    // Настройки
+    var options = {
+        // Сортировка
+        order: 'abc', // abc, count
+        sort: 'asc' // asc, desc
+    };
+
     // Блок плагина
     var bodyTpl = 
     '<div class="container-fluid" id="main">' +
       
-      '<div class="row no-gutters" id="top-row">' +
-        '<div class="col-3"><img src="https://rocont.ru/images/logo.png" class="img-fluid"></div>' +
-        '<div class="col-5"></div>' +
-        '<div class="col-2"></div>' +
-        '<div class="col-2"></div>' +
-      '</div>' +
-      
-      '<div class="row text-center">' +
-        '<div class="col" id="minus-mode-on">minus mode</div>' +
-        '<div class="col" id="minus-mode-off">normal mode</div>' +
-      '</div>' +  
-      '<div class="row text-center">' +
-        '<div class="col">+</div>' +
-        '<div class="col">copy</div>' +
-        '<div class="col">del</div>' +
-      '</div>' +    
-      '<div class="row text-center">' +
-        '<div class="col">Список слов</div>' +
-        '<div class="col">Список минус-слов</div>' +
-      '</div>' +
-       '<div class="row text-center">' +
-        '<div class="col">abc</div>' +
-        '<div class="col">123</div>' +
-      '</div>' +     
-      '<div class="row text-center">' +
-        '<div class="col">' +
-            '<ul class="list-group">' +
-             '<li class="list-group-item">Dapibus ac facilisis in</li>' +
-             '<li class="list-group-item">Dapibus ac facilisis in</li>' +
-             '<li class="list-group-item">Dapibus ac facilisis in</li>' +
-             '<li class="list-group-item">Dapibus ac facilisis in</li>' +
-            '</ul>' +
+      '<div class="row no-gutters" id="row-top">' +
+        '<div class="col" >' +
+        '<i class="img-action" id="img-logo"></i>' +
+        '<i class="img-action" id="img-range" title="Сортировать"></i>' +
+        '<i class="img-action" id="img-export" title="Экспортировать"></i>' +
         '</div>' +
       '</div>' +
+      
+      '<div class="row no-gutters" id="row-key-words">' +
+        '<div class="col"><span class="span-title-words">Ключевые слова</span></div>' +
+      '</div>' +  
+
+      '<div class="row no-gutters row-actions">' +
+        '<div class="col"><i class="img-action img-add" id="img-add-plus" title="Добавить"></i>' +
+            '<i class="img-action img-download" id="img-download-plus" title="Загрузить список"></i>' +
+            '<i class="img-action img-copy" id="img-copy-plus" title="Копировать"></i>' +
+            '<i class="img-action" id="img-copy-range" title="Копировать с частотностью"></i>' +
+            '<i class="img-action img-delete" id="img-delete-plus" title="Очистить"></i>' +
+        '</div>' +
+      '</div>' +        
+      '<div class="row no-gutters" id="words-list">' +
+        '<div class="col">' +
+            '<ul class="list-group" id="list-group-plus">' +
+            '</ul>' +
+        '</div>' +
+      '</div>' +  
+      '<div class="row no-gutters" id="line-separation">' +
+      '</div>' +
+      '<div class="row no-gutters" id="row-key-words">' +
+        '<div class="col"><span class="span-title-words">Минус-слова</span></div>' +
+      '</div>' +
+      '<div class="row no-gutters row-actions">' +
+        '<div class="col"><i class="img-action img-add" id="img-add-minus" title="Добавить"></i>' +
+            '<i class="img-action img-download" id="img-download-minus" title="Загрузить список"></i>' +
+            '<i class="img-action img-copy" id="img-copy-minus" title="Копировать"></i>' +
+            '<i class="img-action img-delete" id="img-delete-minus" title="Очистить"></i>' +
+        '</div>' +
+      '</div>' +
+      '<div class="row no-gutters" id="words-list">' +
+        '<div class="col">' +
+            '<ul class="list-group" id="list-group-minus">' +
+             '<li><span>купить авто +на авито +в области</span><i class="words-del" title="Удалить из списка"></i></li>' +
+             '<li><span>Купить пиццу</span><i class="words-del" title="Удалить из списка"></i></li>' +
+            '</ul>' +
+        '</div>' +
+      '</div>' +   
+    
     '</div>';
 
     // Добавим wwa в начало BODY
     $('BODY').prepend(bodyTpl);
+
+
+    var itemTpl = '<li><span>{words}</span><i class="words-del" title="Удалить из списка"></i></li>';
+    
+    // Nano Templates
+    $.nano = function (template, data) {
+        return template.replace(/\{([\w\.]*)\}/g, data.word);
+    };
 
    // Лог
     var log = {
@@ -75,9 +103,70 @@ var wordstatWebAssistantLoad = function ($, window) {
         // Данные
         data: [],
 
+        update: function () {
+            var html = '';
+            var listData = list.sortData();
+
+            for (var i = 0; i < listData.length; ++i) {
+                var w = listData[i].word;
+                html += $.nano(itemTpl, {word: w});
+                
+            }
+            $('#list-group-plus').html(html);
+        },
+
+        /**
+         * Возвращает отсортированные данные
+         * @returns array
+         */
+        sortData: function () {
+
+            // Клонируем список
+            var data = list.data.slice(0);
+
+            // Сортировка
+            switch (options.order) {
+
+                // По алфавиту
+                case 'abc':
+                    data.sort(function (a, b) {
+                        var compA = a.word.toUpperCase();
+                        var compB = b.word.toUpperCase();
+                        if (compA == compB) {
+                            return 0;
+                        }
+                        return (compA > compB) ? 1 : -1;
+                    });
+                    break;
+
+                // По частотности
+                case 'count':
+                    data.sort(function (a, b) {
+                        var compA = a.count;
+                        var compB = b.count;
+                        if (compA == compB) {
+                            return 0;
+                        }
+                        return (compA > compB) ? 1 : -1;
+                    });
+                    break;
+
+            }
+
+            // Порядок
+            if (options.sort == 'desc') {
+                data.reverse();
+            }
+
+            // Результат
+            return data;
+        },
+
+
         // Добавить
         add: function (word, count) {
-
+            
+            
             // Подготовим данные
             var data = list.prepareData(word, count);
             if (!data) {
@@ -85,17 +174,17 @@ var wordstatWebAssistantLoad = function ($, window) {
             }
 
             // Уже есть в списке?
-            if (list.has(data.word)) {
+            /*if (list.has(data.word)) {
                 log.show('<b>' + data.word + '</b><br/> уже есть в списке', 'warning');
                 return;
-            }
+            }*/
 
             // Добавить фразу в список
             list.data.push(data);
 
             // Обновить и сохранить
             list.update();
-            storage.save();
+            //storage.save();
 
         },
 
@@ -114,7 +203,34 @@ var wordstatWebAssistantLoad = function ($, window) {
                 return item.word == word;
             });
         },
+
+        /**
+         * Возвращает подготовленные данные
+         * @returns array
+         */
+        prepareData: function (word, count) {
+
+            // Подготовить фразу
+            word = $.trim(word);
+            if (typeof(word) != 'string' || word == '') {
+                return false;
+            }
+
+            // Подготовить частотность
+            count = parseInt((count + '').replace(/[^\d]/gi, ''));
+            if (isNaN(count)) {
+                count = 0;
+            }
+
+            // Вернуть результат
+            return {
+                word: word,
+                count: count
+            };
+
+        },
     };
+
 
     // Добавление кнопок и парсинг фразы
     var addActionButtons = function () {
@@ -161,22 +277,24 @@ var wordstatWebAssistantLoad = function ($, window) {
             var phrase = $(this).next().text();
             phrase = $.trim(phrase);
             if (list.has(phrase)) {
-                $('.minus-button', this).data('phrase', phrase);
+                //$('.minus-button', this).data('phrase', phrase);
                 $('.minus-button', this).show();
             } else {
-                $('.plus-button', this).data('phrase', phrase);
+                
                 $('.plus-button', this).show();
             };
         });
 
         $('.plus-button').click(function () {
             list.add(
-                $(this).parent().next().text(),
-                $(this).parent().parent().next().text()
+                $(this).parent().parent().prev().text(),
+                $(this).parent().parent().parent().next().text()
             );
-            $(this).parent().find('.ywh-add').hide();
-            $(this).parent().find('.ywh-remove').show();
+            $(this).parent().find('.plus-button').hide();
+            $(this).parent().find('.minus-button').show();
         });
+
+
         // отслеживать
         doObserverAdd();
        
