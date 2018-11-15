@@ -21,9 +21,9 @@ var wordstatWebAssistantLoad = function ($, window) {
       
       '<div class="row no-gutters" id="row-top">' +
         '<div class="col" >' +
-        '<i class="img-action" id="img-logo"></i>' +
-        '<i class="img-action" id="img-range" title="Сортировать"></i>' +
-        '<i class="img-action" id="img-export" title="Экспортировать"></i>' +
+        '<div class="action-button-div" id="action-button-div-logo"><i class="action-button-i" id="action-button-i-logo"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-range"><i class="action-button-i" id="action-button-i-range" title="Сортировать"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-export"><i class="action-button-i" id="action-button-i-export" title="Экспортировать"></i></div>' +
         '</div>' +
       '</div>' +
       
@@ -32,11 +32,12 @@ var wordstatWebAssistantLoad = function ($, window) {
       '</div>' +  
 
       '<div class="row no-gutters row-actions">' +
-        '<div class="col"><i class="img-action img-add" id="img-add-plus" title="Добавить"></i>' +
-            '<i class="img-action img-download" id="img-download-plus" title="Загрузить список"></i>' +
-            '<i class="img-action img-copy" id="img-copy-plus" title="Копировать"></i>' +
-            '<i class="img-action" id="img-copy-range" title="Копировать с частотностью"></i>' +
-            '<i class="img-action img-delete" id="img-delete-plus" title="Очистить"></i>' +
+        '<div class="col">' +
+        '<div class="action-button-div" id="action-button-div-add"><i class="action-button-i action-button-i-add" title="Добавить"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-download"><i class="action-button-i action-button-i-download" title="Загрузить список"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-copy"><i class="action-button-i action-button-i-copy" title="Копировать"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-copy-range"><i class="action-button-i action-button-i-copy-range" title="Копировать с частотностью"></i></div>' +
+        '<div class="action-button-div" id="action-button-div-delete"><i class="action-button-i action-button-i-delete" title="Очистить"></i></div>' +
         '</div>' +
       '</div>' +        
       '<div class="row no-gutters" id="words-list">' +
@@ -51,17 +52,16 @@ var wordstatWebAssistantLoad = function ($, window) {
         '<div class="col"><span class="span-title-words">Минус-слова</span></div>' +
       '</div>' +
       '<div class="row no-gutters row-actions">' +
-        '<div class="col"><i class="img-action img-add" id="img-add-minus" title="Добавить"></i>' +
-            '<i class="img-action img-download" id="img-download-minus" title="Загрузить список"></i>' +
-            '<i class="img-action img-copy" id="img-copy-minus" title="Копировать"></i>' +
-            '<i class="img-action img-delete" id="img-delete-minus" title="Очистить"></i>' +
+        '<div class="col">' +
+            '<div class="action-button-div" id="action-button-div-add-minus"><i class="action-button-i action-button-i-add" title="Добавить"></i></div>' +
+            '<div class="action-button-div" id="action-button-div-download-minus"><i class="action-button-i action-button-i-download" title="Загрузить список"></i></div>' +
+            '<div class="action-button-div" id="action-button-div-copy-minus"><i class="action-button-i action-button-i-copy" title="Копировать"></i></div>' +
+            '<div class="action-button-div" id="action-button-div-delete-minus"><i class="action-button-i action-button-i-delete" title="Очистить"></i></div>' +
         '</div>' +
       '</div>' +
       '<div class="row no-gutters" id="words-list">' +
         '<div class="col">' +
             '<ul class="list-group" id="list-group-minus">' +
-             '<li><span>купить авто +на авито +в области</span><i class="words-del" title="Удалить из списка"></i></li>' +
-             '<li><span>Купить пиццу</span><i class="words-del" title="Удалить из списка"></i></li>' +
             '</ul>' +
         '</div>' +
       '</div>' +   
@@ -72,12 +72,24 @@ var wordstatWebAssistantLoad = function ($, window) {
     $('BODY').prepend(bodyTpl);
 
 
-    var itemTpl = '<li><span>{words}</span><i class="words-del" title="Удалить из списка"></i></li>';
+    var itemTpl = '<li><span>{word} ({count})</span><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
     
     // Nano Templates
-    $.nano = function (template, data) {
-        return template.replace(/\{([\w\.]*)\}/g, data.word);
+     $.nano = function (template, data) {
+        return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
+            var keys = key.split(".");
+            var value = data[keys.shift()];
+            $.each(keys, function () {
+                value = value[this];
+            });
+            return (value === null || value === undefined) ? "" : value;
+        });
     };
+
+    // Добавление пробелов в числе между разрядами
+    function numberSpaces(number) {
+        return number.toString().replace(/(?=\B(?:\d{3})+\b)/g, '&nbsp;');
+    }
 
    // Лог
     var log = {
@@ -105,11 +117,12 @@ var wordstatWebAssistantLoad = function ($, window) {
 
         update: function () {
             var html = '';
-            var listData = list.sortData();
+            var listData = list.data.slice(0);
 
             for (var i = 0; i < listData.length; ++i) {
                 var w = listData[i].word;
-                html += $.nano(itemTpl, {word: w});
+                var c = listData[i].count > 0 ? numberSpaces(listData[i].count) : '?';
+                html += $.nano(itemTpl, {word: w, count: c});
                 
             }
             $('#list-group-plus').html(html);
@@ -180,7 +193,7 @@ var wordstatWebAssistantLoad = function ($, window) {
             }*/
 
             // Добавить фразу в список
-            list.data.push(data);
+            list.data.unshift(data);
 
             // Обновить и сохранить
             list.update();

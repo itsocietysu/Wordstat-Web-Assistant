@@ -16,6 +16,7 @@
         "/js/jquery-3.3.1.min.js",
         "/js/popper.js",
         "/js/bootstrap.min.js",
+        
         "/js/content.js"
 
       ],
