@@ -72,7 +72,7 @@ var wordstatWebAssistantLoad = function ($, window) {
     $('BODY').prepend(bodyTpl);
 
 
-    var itemTpl = '<li><span>{word} ({count})</span><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
+    var itemTpl = '<li><span>{word}</span><b> ({count})</b><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
     
     // Nano Templates
      $.nano = function (template, data) {
@@ -105,6 +105,88 @@ var wordstatWebAssistantLoad = function ($, window) {
             log.timer = setTimeout(function () {
                 $('.notification').fadeOut(300);
             }, 2000);
+        }
+
+    };
+
+        // Хранилище
+    var storage = {
+
+        // Сохранить
+        save: function () {
+            storage.saveData();
+            storage.saveOptions();
+        },
+
+        // Сохранить данные
+        saveData: function (wwaData) {
+            if (!wwaData) {
+                wwaData = list.data;
+            }
+            try {
+                localStorage['WordstatWebAssistant'] = JSON.stringify(wwaData);
+            } catch (e) {
+                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                console.log("Error");
+            }
+        },
+
+        // Сохранить настройки
+        saveOptions: function (wwaOptions) {
+            if (!wwaOptions) {
+                wwaOptions = options;
+            }
+            try {
+                localStorage['WordstatWebAssistantOptions'] = JSON.stringify(wwaOptions);
+            } catch (e) {
+                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                console.log("Error");
+            }
+        },
+
+        // Загрузить
+        load: function (update) {
+            storage.loadData();
+            storage.loadOptions();
+            if (update) {
+                list.update();
+            }
+        },
+
+        // Загрузить данные
+        loadData: function () {
+            var wwaData = localStorage['WordstatWebAssistant'];
+            if (wwaData != '' && wwaData != undefined) {
+                try {
+                    wwaData = JSON.parse(wwaData);
+                } catch (e) {
+                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                    console.log("Error");
+                }
+            }
+            if (!$.isArray(wwaData)) {
+                wwaData = [];
+                storage.saveData(wwaData);
+            }
+            list.data = list.prepareDatas(wwaData);
+        },
+
+        // Загрузить настройки
+        loadOptions: function () {
+            var wwaOptions = localStorage['WordstatWebAssistantOptions'];
+            if (wwaOptions != '' && wwaOptions != undefined) {
+                try {
+                    wwaOptions = JSON.parse(wwaOptions);
+                } catch (e) {
+                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                    console.log("Error");
+                }
+            }
+            if (!(wwaOptions && ('order' in wwaOptions) && ('sort' in wwaOptions))) {
+                wwaOptions = options;
+                storage.saveOptions(wwaOptions);
+            }
+            options = wwaOptions;
         }
 
     };
@@ -175,33 +257,6 @@ var wordstatWebAssistantLoad = function ($, window) {
             return data;
         },
 
-
-        // Добавить
-        add: function (word, count) {
-            
-            
-            // Подготовим данные
-            var data = list.prepareData(word, count);
-            if (!data) {
-                return;
-            }
-
-            // Уже есть в списке?
-            /*if (list.has(data.word)) {
-                log.show('<b>' + data.word + '</b><br/> уже есть в списке', 'warning');
-                return;
-            }*/
-
-            // Добавить фразу в список
-            list.data.unshift(data);
-
-            // Обновить и сохранить
-            list.update();
-            //storage.save();
-
-        },
-
-
          // Проверка на наличие фразы
         has: function (word) {
 
@@ -242,6 +297,81 @@ var wordstatWebAssistantLoad = function ($, window) {
             };
 
         },
+
+        /**
+         * Возвращает подготовленные данные массива
+         * @returns array
+         */
+        prepareDatas: function (listWord) {
+
+            var result = [];
+            if ($.isArray(listWord)) {
+                for (var i = 0; i < listWord.length; ++i) {
+                    if (typeof(listWord[i]) == 'object') {
+                        var data = list.prepareData(
+                            listWord[i].word ? listWord[i].word : '',
+                            listWord[i].count ? listWord[i].count : 0
+                        );
+                        if (data) {
+                            result.push(data);
+                        }
+                    } else if (typeof(listWord[i]) == 'string') {
+                        var data = list.prepareData(listWord[i], 0);
+                        if (data) {
+                            result.push(data);
+                        }
+                    }
+                }
+            }
+
+            // Вернуть результат
+            return result;
+        },
+
+                // Добавить
+        add: function (word, count) {
+            // Подготовим данные
+            var data = list.prepareData(word, count);
+            if (!data) {
+                return;
+            }
+
+            // Уже есть в списке?
+            /*if (list.has(data.word)) {
+                log.show('<b>' + data.word + '</b><br/> уже есть в списке', 'warning');
+                return;
+            }*/
+
+            // Добавить фразу в список
+            list.data.unshift(data);
+
+            // Обновить и сохранить
+            list.update();
+            storage.save();
+
+        },
+
+        // Удалить фразу
+        remove: function (word) {
+           
+            // Подготовить фразу
+            word = $.trim(word);
+            if (word == '') {
+                return;
+            }
+
+            // Удалить
+            list.data = list.data.filter(function (item) {
+                return item.word != word;
+            });
+
+            // Обновить и сохранить
+            list.update();
+            storage.save();
+
+            // Сообщение
+            //log.show('<b>' + word + '</b><br/> удалено из списка', 'info');
+        },
     };
 
 
@@ -253,7 +383,6 @@ var wordstatWebAssistantLoad = function ($, window) {
         $(".b-icon_type_question").remove();
 
         // Кнопки добавления / удаления фраз
-        $(".b-icon_type_question").remove();
         var templateWordAction = '<span class="word-action-button">' +
             '<b class="minus-button" style="display: none;" title="Удалить из списка">−</b>' +
             '<b class="plus-button" style="display: none;" title="Добавить в список">+</b>' +
@@ -307,6 +436,13 @@ var wordstatWebAssistantLoad = function ($, window) {
             $(this).parent().find('.minus-button').show();
         });
 
+        $('.minus-button').click(function () {
+            list.remove($(this).parent().parent().prev().text());
+            $(this).parent().find('.minus-button').hide();
+            $(this).parent().find('.plus-button').show();
+        });
+
+
 
         // отслеживать
         doObserverAdd();
@@ -324,6 +460,13 @@ var wordstatWebAssistantLoad = function ($, window) {
         observerAdd.observe(target, observerOptions);
     };
     doObserverAdd();
+
+    // Удаление елемента из списка
+    $('.list-group').on('click', '.words-del-div', function () {
+        
+        list.remove($(this).parent().find('SPAN').text());
+    });
+
 
     $('#minus-mode-on').click(function () {
         observerAdd.disconnect();
@@ -361,6 +504,10 @@ var wordstatWebAssistantLoad = function ($, window) {
         doObserverAdd();
     });      
     
+    storage.load(true);
+    setTimeout(function () {
+        storage.load(true);
+    }, 2000);
 
  };
 

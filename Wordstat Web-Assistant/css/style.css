@@ -285,6 +285,13 @@
 	color: rgba(66, 57, 57, 1);
 	text-decoration: none;
 }
+.list-group li b {
+	font-weight: normal;
+	display: inline-block;
+	margin-right: 40%;
+	color: rgba(66, 57, 57, 1);
+	text-decoration: none;
+}
 
 
 .words-del-div {
