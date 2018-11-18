@@ -12,6 +12,94 @@
 	position:fixed
 }
 
+.addWindow {
+	padding-right: 0px;
+	padding-left: 0px;
+	right: 5%;
+	width: 15%;
+	
+	min-width: 120px;
+	top: 100px;
+	
+	z-index: 10;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	cursor: default;
+	position:fixed
+}
+#addFromCopy {
+	display: none;
+}
+#addOptions {
+	right: 4%;
+	width: 16%;
+	display: none;
+}
+
+
+.word-add-col {
+	background-color: #ffffff;
+}
+
+#add-area {
+	margin-left: 10%;
+	
+	position: relative;
+
+	border: none;
+	overflow: auto;
+    outline: none;
+    box-shadow: none;
+    resize: none;
+
+	font-family: 'dentextpro regular';
+	font-size: calc(9px + 0.65vw);
+
+	width: 85%;
+	height: 150px;
+	
+}
+.button-wrap {
+	background-color: rgba(147, 137, 137, 0.64);
+	border-radius: 7px;
+	position: relative;
+	cursor: pointer;
+	margin-left: 50%;
+	margin-bottom: 5%;
+	width:45%;
+}
+.button-window-add {
+	font-weight: normal;
+	font-family: 'dentextpro regular';
+	font-size: calc(6px + 0.65vw);
+}
+
+.input-frequency {
+
+	width: 42%;
+	background-color: rgba(216, 216, 216, 1);
+	font-family: 'dentextpro regular';
+	font-size: calc(8px + 0.65vw);
+	position: relative;
+	margin-bottom: 5%;
+	margin-left: 5%;
+
+	border: none;
+}
+
+/* Добавить все */
+.addAll-wrap {
+	padding-bottom: 10px;
+}
+.addAll, .markMinus {
+	margin-left: 12px;
+	margin-right: 12px;
+	text-decoration: none;
+	color: #1a3dc1;
+	
+	cursor: pointer;
+}
+
+/* Ряд без отступов */
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
@@ -23,6 +111,7 @@
   }
 }
 
+/* Кнопки */
 .action-button-div {
 	display: inline-block;
 	cursor: pointer;
@@ -122,7 +211,7 @@
 #action-button-div-copy::before {
 	content: "";
 	display: block;
-	padding-top: 93%; 
+	padding-top: 90%; 
 }
 #action-button-div-copy-minus {
 	width: 14%; 
@@ -131,7 +220,7 @@
 #action-button-div-copy-minus::before {
 	content: "";
 	display: block;
-	padding-top: 93%; 
+	padding-top: 90%; 
 }
 .action-button-i-copy {
     background: url('https://image.ibb.co/d38cyV/copy.png') no-repeat center center; 
@@ -227,13 +316,13 @@
 }
 
 /* Структура */
-#row-top {
+.row-top {
 	height: calc(35px + 0.55vw);
 	line-height: calc(35px + 0.55vw);
 	background-color: rgba(216, 216, 216, 1);
 }
 
-#row-key-words {
+.row-key-words {
 	height: calc(29px + 0.55vw);
 	line-height: calc(29px + 0.55vw);
 	background-color: #ffffff;
@@ -277,7 +366,7 @@
 	
 	position: relative;
 	font-family: 'dentextpro regular';
-	font-size: calc(9px + 0.65vw);;
+	font-size: calc(9px + 0.65vw);
 }
 .list-group li span {
 	display: inline-block;
@@ -328,4 +417,7 @@
 	height: 5px;
 	background-color: rgba(216, 216, 216, 1);
 }
+
+
+
 
