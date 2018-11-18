@@ -1,0 +1,423 @@
+#main {
+	padding-right: 0px;
+	padding-left: 0px;
+	left: 1%;
+	width: 15%;
+	min-width: 120px;
+	top: 100px;
+	
+	z-index: 10;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	cursor: default;
+	position:fixed
+}
+
+.addWindow {
+	padding-right: 0px;
+	padding-left: 0px;
+	right: 5%;
+	width: 15%;
+	
+	min-width: 120px;
+	top: 100px;
+	
+	z-index: 10;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	cursor: default;
+	position:fixed
+}
+#addFromCopy {
+	display: none;
+}
+#addOptions {
+	right: 4%;
+	width: 16%;
+	display: none;
+}
+
+
+.word-add-col {
+	background-color: #ffffff;
+}
+
+#add-area {
+	margin-left: 10%;
+	
+	position: relative;
+
+	border: none;
+	overflow: auto;
+    outline: none;
+    box-shadow: none;
+    resize: none;
+
+	font-family: 'dentextpro regular';
+	font-size: calc(9px + 0.65vw);
+
+	width: 85%;
+	height: 150px;
+	
+}
+.button-wrap {
+	background-color: rgba(147, 137, 137, 0.64);
+	border-radius: 7px;
+	position: relative;
+	cursor: pointer;
+	margin-left: 50%;
+	margin-bottom: 5%;
+	width:45%;
+}
+.button-window-add {
+	font-weight: normal;
+	font-family: 'dentextpro regular';
+	font-size: calc(6px + 0.65vw);
+}
+
+.input-frequency {
+
+	width: 42%;
+	background-color: rgba(216, 216, 216, 1);
+	font-family: 'dentextpro regular';
+	font-size: calc(8px + 0.65vw);
+	position: relative;
+	margin-bottom: 5%;
+	margin-left: 5%;
+
+	border: none;
+}
+
+/* Добавить все */
+.addAll-wrap {
+	padding-bottom: 10px;
+}
+.addAll, .markMinus {
+	margin-left: 12px;
+	margin-right: 12px;
+	text-decoration: none;
+	color: #1a3dc1;
+	
+	cursor: pointer;
+}
+
+/* Ряд без отступов */
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* Кнопки */
+.action-button-div {
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: middle;
+	position: relative;
+}
+.action-button-div::before {
+	content: "";
+	display: block;
+	padding-top: 100%; /* С помощью этого padding мы задаем высоту равную ширине блока */
+}
+.action-button-i {
+	position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+
+#action-button-div-logo {
+	width: 17%; /* Произвольная ширина, которая требуется для блока */
+	margin-left: 10%;
+}
+#action-button-i-logo {
+    background: url('https://image.ibb.co/iCjHhq/logo.png') no-repeat center center; 
+    background-size: cover; 
+}
+
+#action-button-div-range {
+	width: 12%; 
+	margin-left: 35%;
+}
+#action-button-i-range  {
+    background: url('https://image.ibb.co/ke4Hhq/range.png') no-repeat center center; 
+    background-size: cover; 
+}
+#action-button-i-range:hover {
+	background: url('https://image.ibb.co/k9n9xq/range2.png') no-repeat center center;
+	background-size: cover;
+}
+
+#action-button-div-export {
+	width: 12%; 
+	margin-left: 5%;
+}
+#action-button-i-export {
+    background: url('https://image.ibb.co/drab8V/export.png') no-repeat center center; 
+    background-size: cover; 
+}
+#action-button-i-export:hover {
+	background: url('https://image.ibb.co/byUYOV/export2.png') no-repeat center center;
+	background-size: cover;
+}
+
+
+
+
+#action-button-div-add {
+	width: 12%; 
+	margin-left: 8%;
+}
+#action-button-div-add-minus {
+	width: 12%; 
+	margin-left: 16%;
+}
+.action-button-i-add {
+    background: url('https://image.ibb.co/j54pCq/add.png') no-repeat center center; 
+    background-size: cover; 
+}
+.action-button-i-add:hover {
+	background: url('https://image.ibb.co/kWXH0A/add2.png') no-repeat center center;
+	background-size: cover;
+}
+
+#action-button-div-download {
+	width: 12%; 
+	margin-left: 5%;
+}
+#action-button-div-download-minus {
+	width: 12%; 
+	margin-left: 7%;
+}
+.action-button-i-download {
+    background: url('https://image.ibb.co/kHbQkA/dawnload.png') no-repeat center center; 
+    background-size: cover; 
+}
+.action-button-i-download:hover {
+	background: url('https://image.ibb.co/b6fC0A/download2.png') no-repeat center center;
+	background-size: cover;
+}
+
+#action-button-div-copy {
+	width: 14%; 
+	margin-left: 5%;
+}
+#action-button-div-copy::before {
+	content: "";
+	display: block;
+	padding-top: 90%; 
+}
+#action-button-div-copy-minus {
+	width: 14%; 
+	margin-left: 7%;
+}
+#action-button-div-copy-minus::before {
+	content: "";
+	display: block;
+	padding-top: 90%; 
+}
+.action-button-i-copy {
+    background: url('https://image.ibb.co/d38cyV/copy.png') no-repeat center center; 
+    background-size: cover; 
+}
+.action-button-i-copy:hover {
+	background: url('https://image.ibb.co/kY1N5L/copy2.png') no-repeat center center;
+	background-size: cover;
+}
+
+#action-button-div-copy-range {
+	margin-top: 4px;
+	width: 15%; 
+	margin-left: 5%;
+}
+#action-button-div-copy-range::before {
+	content: "";
+	display: block;
+	padding-top: 90%; 
+}
+.action-button-i-copy-range {
+    background: url('https://image.ibb.co/g38XXq/copy-range.png') no-repeat center center; 
+    background-size: cover; 
+}
+.action-button-i-copy-range:hover {
+	background: url('https://image.ibb.co/k1AO7q/copy-range2.png') no-repeat center center;
+	background-size: cover;
+}
+
+
+#action-button-div-delete {
+	width: 12%; 
+	margin-left: 5%;
+}
+#action-button-div-delete::before {
+	content: "";
+	display: block;
+	padding-top: 110%; 
+}
+
+#action-button-div-delete-minus {
+	width: 12%; 
+	margin-left: 7%;
+}
+#action-button-div-delete-minus::before {
+	content: "";
+	display: block;
+	padding-top: 110%; 
+}
+.action-button-i-delete {
+    background: url('https://image.ibb.co/iChy5A/delete.png') no-repeat center center; 
+    background-size: cover; 
+}
+.action-button-i-delete:hover {
+	background: url('https://image.ibb.co/eACdOV/delete2.png') no-repeat center center;
+	background-size: cover;
+}
+
+
+
+
+/* Слова в таблице */
+.word-parsed {
+	font-size: 12px;
+	height: 15px;
+	padding: 0;
+	cursor: pointer;
+}
+
+#minus-mode-on,
+#minus-mode-off {
+	
+	text-decoration: none;
+	color: #1a3dc1;
+	border-bottom: 1px dotted #1a3dc1;
+	cursor: pointer;
+}
+
+.plus-button,
+.minus-button {
+	cursor: pointer;
+    border: 1px dotted #7b7a7a;
+    border-radius: 5px;
+    padding: 0 4px;
+    margin: 0 8px 0 0;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.plus-button:hover,
+.minus-button:hover {
+	background-color: #fad8d9;
+}
+
+/* Структура */
+.row-top {
+	height: calc(35px + 0.55vw);
+	line-height: calc(35px + 0.55vw);
+	background-color: rgba(216, 216, 216, 1);
+}
+
+.row-key-words {
+	height: calc(29px + 0.55vw);
+	line-height: calc(29px + 0.55vw);
+	background-color: #ffffff;
+}
+.span-title-words {
+	position: absolute;
+	margin-left: 10%;
+	font-family: 'helvetica bold';
+	font-size: calc(11px + 0.55vw);
+
+	white-space: nowrap;
+	color: rgba(66, 57, 57, 1);
+	text-align: left;
+}
+
+
+.row-actions {
+	height: calc(34px + 0.55vw);
+	line-height: calc(34px + 0.55vw);
+	background-color: rgba(216, 216, 216, 1);
+}
+.img-action {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+
+
+
+#words-list {
+	background-color: #ffffff;
+}
+.list-group {
+	list-style-type: none;
+	height: 150px;
+	overflow-y:  auto;
+	padding: 8px 0px 0px 20px;
+}
+.list-group li {
+	padding-top: 5px;
+	
+	position: relative;
+	font-family: 'dentextpro regular';
+	font-size: calc(9px + 0.65vw);
+}
+.list-group li span {
+	display: inline-block;
+	margin-right: 40%;
+	color: rgba(66, 57, 57, 1);
+	text-decoration: none;
+}
+.list-group li b {
+	font-weight: normal;
+	display: inline-block;
+	margin-right: 40%;
+	color: rgba(66, 57, 57, 1);
+	text-decoration: none;
+}
+
+
+.words-del-div {
+	width: 14%;
+	right: 10%;
+	top: 13px;
+	
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: middle;
+	position: absolute;
+}
+.words-del-div::before {
+	content: "";
+	display: block;
+	padding-top: 25%; 
+}
+
+.words-del {
+	position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;	
+	background: url('https://image.ibb.co/n5QniV/minus.png') no-repeat center center;
+	background-size: cover;
+	opacity: 0.7;
+}
+.words-del:hover {
+	opacity: 1;
+}
+
+#line-separation {
+	height: 5px;
+	background-color: rgba(216, 216, 216, 1);
+}
+
+
+
+
