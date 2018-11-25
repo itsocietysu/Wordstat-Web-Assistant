@@ -1182,7 +1182,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     var isCtrlDown = false;
     $(document).keyup(function (e) {
-        if(e.which == 17) {
+        if(e.which == 17 || e.metaKey) {
             isCtrlDown = false;
             
             listMinus.add(minusPhrase);
@@ -1205,7 +1205,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             markMinus();
         }
     }).keydown(function (e) {
-        if(e.which == 17) {
+        if(e.which == 17 || e.metaKey) {
             if(isCtrlDown == true){
                 return;
             }
