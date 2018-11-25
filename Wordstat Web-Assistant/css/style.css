@@ -3,7 +3,7 @@
 	padding-left: 0px;
 	left: 1%;
 	width: 15%;
-	min-width: 120px;
+	min-width: 130px;
 	top: 100px;
 	
 	z-index: 10;
@@ -12,11 +12,31 @@
 	position:fixed
 }
 
+.cross {
+	position: absolute;
+	right: 15px;
+	top:9px;
+	background: url('https://i.ibb.co/wwKm3cQ/cross.png') no-repeat 0 0;
+	background-size: cover;
+	display: block;
+	width: 10%;
+	cursor: pointer;
+	opacity: 0.7;
+}
+.cross::before {
+	content: "";
+	display: block;
+	padding-top: 100%; 
+}
+.cross:hover {
+	opacity: 1;
+}
+
 .addWindow {
 	padding-right: 0px;
 	padding-left: 0px;
-	right: 5%;
-	width: 15%;
+	right: 4%;
+	width: 16%;
 	
 	min-width: 120px;
 	top: 100px;
@@ -24,14 +44,13 @@
 	z-index: 10;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 	cursor: default;
-	position:fixed
+	position:fixed;
 }
 #addFromCopy {
 	display: none;
 }
-#addOptions {
-	right: 4%;
-	width: 16%;
+#addRange {
+	
 	display: none;
 }
 
@@ -40,6 +59,14 @@
 	background-color: #ffffff;
 }
 
+@font-face {
+    font-family: 'DinTextProRegular'; 
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/dintextpro.ttf') 
+}
+@font-face {
+	font-family: 'Helvetica_Bold';
+	src: url('chrome-extension://__MSG_@@extension_id__/fonts/Helvetica-Bold.ttf') 
+}
 #add-area {
 	margin-left: 10%;
 	
@@ -51,7 +78,7 @@
     box-shadow: none;
     resize: none;
 
-	font-family: 'dentextpro regular';
+	font-family: 'DinTextProRegular';
 	font-size: calc(9px + 0.65vw);
 
 	width: 85%;
@@ -69,7 +96,7 @@
 }
 .button-window-add {
 	font-weight: normal;
-	font-family: 'dentextpro regular';
+	font-family: 'DinTextProRegular';
 	font-size: calc(6px + 0.65vw);
 }
 
@@ -77,7 +104,7 @@
 
 	width: 42%;
 	background-color: rgba(216, 216, 216, 1);
-	font-family: 'dentextpro regular';
+	font-family: 'DinTextProRegular';
 	font-size: calc(8px + 0.65vw);
 	position: relative;
 	margin-bottom: 5%;
@@ -90,7 +117,7 @@
 .addAll-wrap {
 	padding-bottom: 10px;
 }
-.addAll, .markMinus {
+.addAll, .delAll {
 	margin-left: 12px;
 	margin-right: 12px;
 	text-decoration: none;
@@ -121,7 +148,7 @@
 .action-button-div::before {
 	content: "";
 	display: block;
-	padding-top: 100%; /* С помощью этого padding мы задаем высоту равную ширине блока */
+	padding-top: 100%; 
 }
 .action-button-i {
 	position: absolute;
@@ -132,14 +159,15 @@
 }
 
 
-#action-button-div-logo {
-	width: 17%; /* Произвольная ширина, которая требуется для блока */
+.action-button-div-logo {
+	width: 17%; 
 	margin-left: 10%;
 }
-#action-button-i-logo {
+.action-button-i-logo {
     background: url('https://image.ibb.co/iCjHhq/logo.png') no-repeat center center; 
     background-size: cover; 
 }
+
 
 #action-button-div-range {
 	width: 12%; 
@@ -330,8 +358,10 @@
 .span-title-words {
 	position: absolute;
 	margin-left: 10%;
-	font-family: 'helvetica bold';
-	font-size: calc(11px + 0.55vw);
+	font-family: 'Helvetica_Bold';
+	font-weight: bold;
+	font-size: calc(9px + 0.5vw);
+
 
 	white-space: nowrap;
 	color: rgba(66, 57, 57, 1);
@@ -365,8 +395,8 @@
 	padding-top: 5px;
 	
 	position: relative;
-	font-family: 'dentextpro regular';
-	font-size: calc(9px + 0.65vw);
+	font-family: "DinTextProRegular";
+	font-size: 13px;
 }
 .list-group li span {
 	display: inline-block;
@@ -384,7 +414,7 @@
 
 
 .words-del-div {
-	width: 14%;
+	width: 15px;
 	right: 10%;
 	top: 13px;
 	

@@ -35,6 +35,12 @@
       ]
     }
   ],
+  
+  "web_accessible_resources": [
+    "css/style.css",
+    "fonts/Helvetica-Bold.ttf",
+    "fonts/dintextpro.ttf"
+  ],
   "version": "1.0.0",
   "name": "Wordstat Web-Assistant",
   "description": "SEO-плагин, значительно ускоряющий сбор слов с помощью сервиса wordstat.yandex.ru",
