@@ -318,15 +318,6 @@
 	cursor: pointer;
 }
 
-#minus-mode-on,
-#minus-mode-off {
-	
-	text-decoration: none;
-	color: #1a3dc1;
-	border-bottom: 1px dotted #1a3dc1;
-	cursor: pointer;
-}
-
 .plus-button,
 .minus-button {
 	cursor: pointer;
@@ -343,7 +334,67 @@
 	background-color: #fad8d9;
 }
 
+/* Уведомления */
+.notification {
+	font-family: 'dintextpro';
+	font-size: 16px;
+	position: fixed;
+	width: 300px; 
+	top: 20px;
+	right: 10px;
+	z-index: 9998; 
+	height: auto;
+
+	opacity: 0;
+	transition: 1s;
+	animation: show 1s 1;
+	animation-fill-mode: forwards;
+}
+@keyframes show{
+	 0%{
+		 opacity:0;
+	 }
+	 100% {
+		 opacity:1;
+	 }
+}
+
+.show-notification {
+	border-radius: 20px; 
+	padding: 10px 25px 10px 10px;
+	height: 100%;
+}
+#notification-success {
+	background-color: #bdff76;
+}
+#notification-warning {
+	background-color: rgba(216, 216, 216, 1);;
+}
+#notification-error {
+	background-color: #ffa390;
+}
+#cross-small {
+	position: absolute;
+	right: 7px;
+	top: 7px;
+	background: url('https://i.ibb.co/wwKm3cQ/cross.png') no-repeat 0 0;
+	background-size: cover;
+	display: block;
+	width: 15px;
+	cursor: pointer;
+	opacity: 0.7;
+}
+#cross-small::before {
+	content: "";
+	display: block;
+	padding-top: 100%; 
+}
+#cross-small:hover {
+	opacity: 1;
+}
+
 /* Структура */
+
 .row-top {
 	height: calc(35px + 0.55vw);
 	line-height: calc(35px + 0.55vw);
@@ -398,25 +449,19 @@
 	font-family: "DinTextProRegular";
 	font-size: 13px;
 }
-.list-group li span {
+.li-wrap {
 	display: inline-block;
-	margin-right: 40%;
+	margin-right: 22%;
 	color: rgba(66, 57, 57, 1);
 	text-decoration: none;
 }
-.list-group li b {
-	font-weight: normal;
-	display: inline-block;
-	margin-right: 40%;
-	color: rgba(66, 57, 57, 1);
-	text-decoration: none;
-}
+
 
 
 .words-del-div {
 	width: 15px;
 	right: 10%;
-	top: 13px;
+	top: 10px;
 	
 	display: inline-block;
 	cursor: pointer;

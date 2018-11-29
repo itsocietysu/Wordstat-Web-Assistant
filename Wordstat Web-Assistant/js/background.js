@@ -8,7 +8,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	switch (request.action) {
 
-
 		// Копировать
 		case 'copy':
 			var a = $('TEXTAREA');
@@ -20,7 +19,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 				sendResponse({result: false});
 			}
 			break;
-
+		
 
 	}
 });
