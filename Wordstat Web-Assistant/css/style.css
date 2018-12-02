@@ -610,3 +610,8 @@
 	height: 5px;
 	background-color: rgba(216, 216, 216, 1);
 }
+
+
+#upload-file {
+	display: none;
+}

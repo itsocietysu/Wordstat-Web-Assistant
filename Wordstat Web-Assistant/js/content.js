@@ -4,11 +4,6 @@ var transport = function (data, callback) {
 };
 
 var wordstatWebAssistantLoad = function ($, window, transport) {
-    //прописываем мета для bootstrap
-    //var metaBootStrap = '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">';
-    //$('HEAD').prepend(metaBootStrap);
-
-
     // Основной блок (для отслеживания изменений)
     var contentBlock = $('.b-wordstat-content');
 
@@ -824,10 +819,24 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             var listData = list.data.slice(0);
             
             for(var i = 0; i < listData.length; i++) {
-                if(listData[i].word.indexOf(data) + 1) {
+                var dataSplitted = data.split(' ');
+                var isContain = true;
+                for(var k = 0; k < dataSplitted.length; k++) {
+                    if(!(listData[i].word.indexOf(dataSplitted[k]) + 1)) {
+                        isContain = false;
+                    }
+                }
+                if(isContain) {
                     if (confirm('Фраза "' + data + '" содержится в списке ключевых слов. Удалить из ключевых?')) {
-                        for(var j = i; j < listData.length; j++) {
-                            if(listData[j].word.indexOf(data) + 1) {
+                        list.remove(listData[i].word);
+                        for(var j = i + 1; j < listData.length; j++) {
+                            isContain = true;
+                            for(var k = 0; k < dataSplitted.length; k++) {
+                                if(!(listData[j].word.indexOf(dataSplitted[k]) + 1)) {
+                                    isContain = false;
+                                }
+                            }
+                            if(isContain) {
                                 list.remove(listData[j].word);
                             }
                         }
@@ -1202,6 +1211,83 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
      $('#action-button-div-copy-range').click(function () {
         list.copy(true);
      });
+
+     // Загрузка из csv
+     $('#action-button-div-download').click(function() {
+        var uploadFile = '<input type="file" id="upload-file" />';
+        $('BODY').prepend(uploadFile);
+
+        var fileContents = document.getElementById('upload-file');
+        fileContents.click();
+        fileContents.addEventListener('change', function (e) { 
+            var fileTobeRead = fileContents.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {}
+            fileReader.readAsText(fileTobeRead);
+            fileReader.onloadend = function () {
+                var strings = fileReader.result.split('\n');
+                var firstString = strings[0].split(';');
+                if(!(firstString[0].indexOf('Ключевые слова') + 1) || !(firstString[1].indexOf('Частотность') + 1) || firstString.length != 2) {
+                    log.show('Неверный формат файла', 'error');
+                    return;
+                }
+                for(var i = 1; i < strings.length - 1; i++) {
+                    var stringSplitted = strings[i].split(';');
+                    if(stringSplitted.length == 2) {
+                        var w = $.trim(stringSplitted[0]);
+                        var c = $.trim(stringSplitted[1]);
+                        list.add(w, c);
+                        observerAdd.disconnect();
+                        $('.word-action-button').each(function () {
+                            var phrase = $(this).next().text();
+                            if(phrase == w) {
+                                $(this).find('.minus-button').show();
+                                $(this).find('.plus-button').hide();
+                            }
+                        });
+                        doObserverAdd();
+                    }
+                    else {
+                        log.show('Неверный формат файла', 'error');
+                        return;
+                    }
+                }
+            }
+        });
+        $('#upload-file').hide();
+     });
+
+     $('#action-button-div-download-minus').click(function() {
+        var uploadFile = '<input type="file" id="upload-file-minus" />';
+        $('BODY').prepend(uploadFile);
+
+        var fileContents = document.getElementById('upload-file-minus');
+        fileContents.click();
+        fileContents.addEventListener('change', function (e) { 
+            var fileTobeRead = fileContents.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {}
+            fileReader.readAsText(fileTobeRead);
+            fileReader.onloadend = function () {
+                var strings = fileReader.result.split('\n');
+                if(!(strings[0].indexOf('Минус-слова') + 1)) {
+                    log.show('Неверный формат файла');
+                    return;
+                }
+                for(var i = 1; i < strings.length - 1; i++) {
+                    if(strings.indexOf(';') + 1) {
+                        log.show('Неверный формат файла');
+                        return;
+                    }
+                    var w = $.trim(strings[i]);
+                    listMinus.add(w);
+                }
+            }
+        });
+        $('#upload-file-minus').hide();
+     });
+     
+
 /*-------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------------------------------*/
