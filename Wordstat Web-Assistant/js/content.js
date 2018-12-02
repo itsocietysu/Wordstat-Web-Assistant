@@ -24,6 +24,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         order: 'abc', // abc
         sort: 'asc' // asc, desc
     };
+    $.fn.exists = function () {
+        return this.length !== 0;
+    }
     /*-------------------------------------------------------------------------------------------*/
     // Блок плагина
     var bodyTpl = 
@@ -31,7 +34,6 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
       
       '<div class="row no-gutters row-top">' +
         '<div class="col" >' +
-
         '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
         '<div class="action-button-div" id="action-button-div-range"><i class="action-button-i" id="action-button-i-range" title="Задать частотность"></i></div>' +
         '<div class="action-button-div" id="action-button-div-export"><i class="action-button-i" id="action-button-i-export" title="Экспортировать в csv"></i></div>' +
@@ -98,36 +100,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     // Окно добавления фраз копированием 
     var addFromCopyTpl = 
-        '<div class="container-fluid addWindow" id="addFromCopy">' +
-          
-          '<div class="row no-gutters row-top">' +
-            '<div class="col" >' +
-            '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
-            '<i class="cross" id="cross-from-copy" title="Закрыть"></i>' +
-            '</div>' +
-          '</div>' +
-          
-          '<div class="row no-gutters row-key-words">' +
-            '<div class="col"><span class="span-title-words"></span></div>' +
-          '</div>' +      
-          '<div class="row no-gutters">' +
-            '<div class="col word-add-col">' +
-                '<textarea id="add-area" placeholder="Добавьте слова"></textarea>' +
-            '</div>' +
-           '</div>' +
-            '<div class="row no-gutters">' +
-                '<div class="col word-add-col">' +
-                    '<div class="button-wrap"><center><b class="button-window-add" id="button-add">Добавить</b></center></div>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-
-    $('BODY').prepend(addFromCopyTpl);
-
-    // Окно добавления фраз с заданной частотностью
-    var addOptionsTpl = 
+        '<div id="windows-wrap">' +
         '<div class="container-fluid addWindow" id="addRange">' +
-
           '<div class="row no-gutters row-top">' +
             '<div class="col" >' +
             '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
@@ -148,16 +122,76 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                     '<div class="button-wrap"><center><b class="button-window-add" id="button-apply">Применить</b></center></div>' +
                 '</div>' +
             '</div>' +
+        '</div>' +
+        '<div class="container-fluid addWindow" id="addFromCopy">' +
+          '<div class="row no-gutters row-top">' +
+            '<div class="col" >' +
+            '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
+            '<i class="cross" id="cross-from-copy" title="Закрыть"></i>' +
+            '</div>' +
+          '</div>' +
+          
+          '<div class="row no-gutters row-key-words">' +
+            '<div class="col"><span class="span-title-words">Ключевые слова</span></div>' +
+          '</div>' +      
+          '<div class="row no-gutters">' +
+            '<div class="col word-add-col">' +
+                '<textarea id="add-area" placeholder="Добавьте слова"></textarea>' +
+            '</div>' +
+           '</div>' +
+            '<div class="row no-gutters">' +
+                '<div class="col word-add-col">' +
+                    '<div class="button-wrap"><center><b class="button-window-add" id="button-add">Добавить</b></center></div>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+
+        '<div class="container-fluid addWindow" id="addFromCopyMinus">' +
+          '<div class="row no-gutters row-top">' +
+            '<div class="col" >' +
+            '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
+            '<i class="cross" id="cross-from-copy-minus" title="Закрыть"></i>' +
+            '</div>' +
+          '</div>' +
+          
+          '<div class="row no-gutters row-key-words">' +
+            '<div class="col"><span class="span-title-words">Минус-слова</span></div>' +
+          '</div>' +      
+          '<div class="row no-gutters">' +
+            '<div class="col word-add-col">' +
+                '<textarea id="add-area-minus" placeholder="Добавьте слова"></textarea>' +
+            '</div>' +
+           '</div>' +
+            '<div class="row no-gutters">' +
+                '<div class="col word-add-col">' +
+                    '<div class="button-wrap"><center><b class="button-window-add" id="button-add-minus">Добавить</b></center></div>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
         '</div>';
 
-    $('BODY').prepend(addOptionsTpl);
+    $('BODY').prepend(addFromCopyTpl);
 
     var showNotificationTpl =
-    '<div class="notification"></div>';
+    '<div class="container-fluid notification">' +
+        '<div class="row no-gutters row-top">' +
+            '<div class="col" >' +
+            '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
+            '<i class="cross" id="cross-small" title="Закрыть"></i>' +
+            '</div>' +
+          '</div>' +
+        '<div class="row no-gutters">' +
+            '<div class="col" id="colToAdd"></div>' +   
+        '</div>' +
+    '</div>';
 
      $('BODY').prepend(showNotificationTpl);
 
 /*-------------------------------------------------------------------------------------------*/
+    $('#imglog').click(function() {
+        window.open('https://rocont.ru/');
+    });
+
     // Шаблон элемента списка слов
     var itemTpl = '<li><div class="li-wrap"><span>{word}</span> ({count})</div><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
     // Шаблон элемента списка минус-слов
@@ -193,10 +227,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // Уведомление
         show: function (text, type) {
-        
-            var notice = '<div class="show-notification" id="notification-' + type + '">' + text + '</div>'+
-                            '<i id="cross-small"></i>';
-            $('.notification').html(notice);
+            var notice = '</div><p class="show-notification" id="notification-' + type + '">' + text + '</p>';   
+            $('#colToAdd').html(notice);
+            
             $('.notification').stop(true, true).show();
             $('#cross-small').click(function() {
                 $('.notification').hide();
@@ -204,7 +237,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             clearTimeout(log.timer);
             log.timer = setTimeout(function () {
                 $('.notification').fadeOut(300);
-            }, 2000);
+            }, 2500);
         }
 
     };
@@ -233,8 +266,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             try {
                 localStorage['WordstatWebAssistantMinus'] = JSON.stringify(wwaDataMinus);
             } catch (e) {
-                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                console.log("Error");
+                log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
             }
         },
 
@@ -246,8 +278,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             try {
                 localStorage['WordstatWebAssistant'] = JSON.stringify(wwaData);
             } catch (e) {
-                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                console.log("Error");
+                log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
             }
         },
 
@@ -259,8 +290,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             try {
                 localStorage['WordstatWebAssistantOptionsMinus'] = JSON.stringify(wwaOptionsMinus);
             } catch (e) {
-                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                console.log("Error");
+                log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
             }
         },
         // Сохранить настройки
@@ -271,8 +301,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             try {
                 localStorage['WordstatWebAssistantOptions'] = JSON.stringify(wwaOptions);
             } catch (e) {
-                //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                console.log("Error");
+                log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
             }
         },
 
@@ -301,8 +330,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 try {
                     wwaDataMinus = JSON.parse(wwaDataMinus);
                 } catch (e) {
-                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                    console.log("Error");
+                    log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
                 }
             }
 
@@ -312,6 +340,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
             listMinus.data = listMinus.prepareDatas(wwaDataMinus);
 
+            var input = $('.b-form-input__input').val();
+            for(var i = 0; i < listMinus.data.length; i ++) {
+                input = input + ' -' + listMinus.data[i];
+            }
+            $('.b-form-input__input').val(input);
+
         },
         // Загрузить данные
         loadData: function () {
@@ -320,8 +354,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 try {
                     wwaData = JSON.parse(wwaData);
                 } catch (e) {
-                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                    console.log("Error");
+                    log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                    
                 }
             }
             if (!$.isArray(wwaData)) {
@@ -338,8 +372,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 try {
                     wwaOptionsMinus = JSON.parse(wwaOptionsMinus);
                 } catch (e) {
-                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                    console.log("Error");
+                    log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                   
                 }
             }
             if (!(wwaOptionsMinus && ('order' in wwaOptionsMinus) && ('sort' in wwaOptionsMinus))) {
@@ -355,8 +389,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 try {
                     wwaOptions = JSON.parse(wwaOptions);
                 } catch (e) {
-                    //log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
-                    console.log("Error");
+                    log.show('<b>Ошибка:</b><br/> ' + e.name, 'error');
+                    
                 }
             }
             if (!(wwaOptions && ('order' in wwaOptions) && ('sort' in wwaOptions))) {
@@ -519,7 +553,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             var listMinusData = listMinus.data.slice(0);
             
             for(var i = 0; i < listMinusData.length; i++) {
-                //console.log(data.word);
+                
                 if(data.word.indexOf(listMinusData[i]) + 1) {
                     if (confirm('Фраза "' + listMinusData[i] + '" содержится в списке минус-слов. Удалить из минус-слов?')) {
                         for(var j = i; j < listMinusData.length; j++) {
@@ -807,7 +841,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
             //Добавить в строку поиска
             var input = $('.b-form-input__input').val();
-            
+
             input = input + ' -' + data;
             $('.b-form-input__input').val(input);
 
@@ -836,12 +870,17 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             });
             var newInput ='';
             var inputSplitted = $('.b-form-input__input').val().split(' ');
+            var wordSplitted = word.split(' ');
+            var wordWithMinus = '-' + wordSplitted[0];
             for(var i = 0; i < inputSplitted.length; i++) {
-                var wordWithMinus = '-' + word;
                 if(!(inputSplitted[i] == wordWithMinus)) {
                     newInput += (inputSplitted[i] + ' ');
                 }
+                else {
+                    i += (wordSplitted.length - 1);
+                }
             }
+            newInput = $.trim(newInput);
             $('.b-form-input__input').val(newInput);
 
             // Обновить и сохранить
@@ -865,6 +904,27 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         clear: function () {
             if (confirm('Вы действительно хотите очистить список минус-слов?')) {
+                // Удалить из строки поиска
+                var newInput ='';
+                var inputSplitted = $('.b-form-input__input').val().split(' ');
+                for(var i = 0; i < inputSplitted.length; i++) {
+                    var isToAdd = true;
+                    for(var j = 0; j < listMinus.data.length; j++) {
+                        var wordMinusSplitted = listMinus.data[j].split(' ');
+                        var wordWithMinus = '-' + wordMinusSplitted[0];
+                        if(inputSplitted[i] == wordWithMinus) {
+                            isToAdd = false;
+                            break;
+                        }
+                    }
+                    if(isToAdd) {
+                        newInput += (inputSplitted[i] + ' ');
+                    }
+                    else {
+                        i += (wordMinusSplitted.length - 1);
+                    }
+                }
+                $('.b-form-input__input').val(newInput);
 
                 // Очистить
                 listMinus.data = [];
@@ -913,11 +973,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             };
             transport(config, function (response) {
                 if (response.result) {
-                    console.log("Success copy")
-                    //log.show('<b>Список скопирован в буфер обмена', 'success');
+                    log.show('<b>Список скопирован в буфер обмена', 'success');
                 } else {
-                    console.log("Error copy");
-                    //log.show('<b>Ошибка:</b><br/>Не удалось скопировать список в буфер обмена', 'error');
+                    log.show('<b>Ошибка:</b><br/>Не удалось скопировать список в буфер обмена', 'error');
                 }
             });
 
@@ -928,8 +986,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 /*-------------------------------------------------------------------------------------------*/
     // Добавление кнопок и парсинг фразы
     var addActionButtons = function () {
-        observerAdd.disconnect();
 
+        observerAdd.disconnect();
+        
         // Костыль
         $(".b-icon_type_question").remove();
 
@@ -1006,10 +1065,16 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 list.remove(phrase);
             }
             else {
-                var phraseSplitted = phrase.split(' ');
-                for(var i = 0; i < phraseSplitted.length; i++) {
-                    if(listMinus.has(phraseSplitted[i])) {
-                        listMinus.remove(phraseSplitted[i]);
+                for(var i = 0; i < listMinus.data.length; i++) {
+                    var minusWordSplitted = listMinus.data[i].split(' ');
+                    var isContain = true;
+                    for(var j = 0; j < minusWordSplitted[i].length; j++) {
+                        if(!(phrase.indexOf(minusWordSplitted[i]) + 1)) {
+                            isContain = false;
+                        }
+                    }
+                    if(isContain) {
+                        listMinus.remove(listMinus.data[i]);
                     }
                 }
             }
@@ -1045,9 +1110,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 }*/
             }
         });
-
+        
         // отслеживать
         doObserverAdd();
+        if($('.ywh-body').exists()) {
+             observerAdd.disconnect();
+        }
        
     };
 
@@ -1056,12 +1124,15 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     var observerOptions = {childList: true, subtree: true};
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-
     var observerAdd = new MutationObserver(addActionButtons);
     var doObserverAdd = function () {
         observerAdd.observe(target, observerOptions);
     };
+
     doObserverAdd();
+
+
+
 /*-------------------------------------------------------------------------------------------*/
     // ДЕЙСТВИЯ ПРИ КЛИКЕ НА ИКОНКИ
 
@@ -1136,34 +1207,27 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 /*-------------------------------------------------------------------------------------------------*/
     // Показать окно добавления фраз с заданной частотностью
         
-        var showRangeWindow = function() {
-            $('#addFromCopy').css("top", "250px");
+
+        $('#action-button-div-range').click(function () {
             $('#addRange').show();
 
             $(document).keydown(function(e) {
                 if( e.keyCode === 27 ) {
-                    $('#addFromCopy').css("top", "100px");
                     $('#addRange').hide();
                     $('#input-to').val('');
                     $('#input-from').val('');
                 }
             });
             $('#cross-options').click(function() {
-                $('#addFromCopy').css("top", "100px");
                 $('#addRange').hide();
                 $('#input-to').val('');
                 $('#input-from').val('');
             });
-        };
-
-        $('#action-button-div-range').click(function () {
-            showRangeWindow();
         });
 
 
         $('#button-apply').click(function () {
             $('#addRange').hide();
-            $('#addFromCopy').css("top", "100px");
 
             var countFrom = $('#input-from').val();
             countFrom = parseInt(countFrom);
@@ -1209,8 +1273,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
      // Показать окно добавления фраз копированием 
      
-     var showAddWindow = function() {
-        
+     $('#action-button-div-add').click(function() {
         $('#addFromCopy').show();
         $(document).keydown(function(e) {
             if( e.keyCode === 27 ) {
@@ -1224,19 +1287,20 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             $('#addFromCopy').hide();
             $('#add-area').val('');
         });
-     };
-     var isKeyWords;
-     //В случае КС
-     $('#action-button-div-add').click(function() {
-        $('#addFromCopy').find('.span-title-words').html('Ключевые слова');
-        isKeyWords = true;
-        showAddWindow();
      });
-     //В случае МС
+     
      $('#action-button-div-add-minus').click(function() {
-        $('#addFromCopy').find('.span-title-words').html('Минус-слова');
-        isKeyWords = false;
-        showAddWindow();
+        $('#addFromCopyMinus').show();
+        $(document).keydown(function(e) {
+            if( e.keyCode === 27 ) {
+                $('#addFromCopyMinus').hide();
+                $('#add-area-minus').val('');
+            }
+        });
+        $('#cross-from-copy-minus').click(function() {
+            $('#addFromCopyMinus').hide();
+            $('#add-area-minus').val('');
+        });
      });
      // Добавить слова и убрать окно добавления слов
       $('#button-add').click(function() {
@@ -1246,15 +1310,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         $('#add-area').val('');
         
         var wordsToAddSplitted = wordsToAdd.split('\n');
-        if(isKeyWords) {
-            for(var i = 0; i < wordsToAddSplitted.length; i++) {
-                list.add(wordsToAddSplitted[i]);
-            }    
-        }
-        else {
-            for(var i = 0; i < wordsToAddSplitted.length; i++) {
-                listMinus.add(wordsToAddSplitted[i]);
-            }              
+        for(var i = 0; i < wordsToAddSplitted.length; i++) {
+            list.add(wordsToAddSplitted[i]);
+        }    
+      });
+      $('#button-add-minus').click(function() {
+        $('#addFromCopyMinus').hide();
+        var wordsToAdd = $('#add-area-minus').val();
+        $('#add-area-minus').val('');
+        
+        var wordsToAddSplitted = wordsToAdd.split('\n');
+        for(var i = 0; i < wordsToAddSplitted.length; i++) {
+            listMinus.add(wordsToAddSplitted[i]);
         }
       });
 
