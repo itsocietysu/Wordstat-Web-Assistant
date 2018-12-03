@@ -1077,8 +1077,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 for(var i = 0; i < listMinus.data.length; i++) {
                     var minusWordSplitted = listMinus.data[i].split(' ');
                     var isContain = true;
-                    for(var j = 0; j < minusWordSplitted[i].length; j++) {
-                        if(!(phrase.indexOf(minusWordSplitted[i]) + 1)) {
+                    for(var j = 0; j < minusWordSplitted.length; j++) {
+                        if(!(phrase.indexOf(minusWordSplitted[j]) + 1)) {
                             isContain = false;
                         }
                     }
@@ -1211,9 +1211,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
      $('#action-button-div-copy-range').click(function () {
         list.copy(true);
      });
-
+/*-------------------------------------------------------------------------------------------*/
      // Загрузка из csv
-     $('#action-button-div-download').click(function() {
+     /*$('#action-button-div-download').click(function() {
         var uploadFile = '<input type="file" id="upload-file" />';
         $('BODY').prepend(uploadFile);
 
@@ -1255,9 +1255,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
         });
         $('#upload-file').hide();
-     });
+     });*/
 
-     $('#action-button-div-download-minus').click(function() {
+     /*$('#action-button-div-download-minus').click(function() {
         var uploadFile = '<input type="file" id="upload-file-minus" />';
         $('BODY').prepend(uploadFile);
 
@@ -1285,8 +1285,91 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
         });
         $('#upload-file-minus').hide();
-     });
-     
+     });*/
+     /*-------------------------------------------------------------------------------------------*/
+     // Загрузка из csv 
+    $('#action-button-div-download').click(function() {
+        var uploadFile = '<input type="file" id="upload-file" />';
+        $('BODY').prepend(uploadFile);
+
+        var fileContents = document.getElementById('upload-file');
+        fileContents.click();
+        fileContents.addEventListener('change', function () { 
+            var fileTobeRead = fileContents.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {type: 'binary'});
+                var first_sheet_name = workbook.SheetNames[0];
+                /* Get worksheet */
+                var worksheet = workbook.Sheets[first_sheet_name];
+                var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
+                    raw: true
+                });
+
+                var keys = Object.keys(worksheetJSON[0]);
+                if($.trim(keys[0]) != 'Ключевые слова' || $.trim(keys[1]) != 'Частотность') {
+                    log.show('Неверный формат файла', 'warning');
+                    return;
+                }
+                for(var i = 0; i < worksheetJSON.length; i++) {
+                    var w = worksheetJSON[i][keys[0]];
+                    var c = worksheetJSON[i][keys[1]];
+
+                    list.add(w, c);
+                    observerAdd.disconnect();
+                    $('.word-action-button').each(function () {
+                        var phrase = $(this).next().text();
+                        if(phrase == w) {
+                            $(this).find('.minus-button').show();
+                            $(this).find('.plus-button').hide();
+                        }
+                    });
+                    doObserverAdd();
+                }
+
+            }
+            fileReader.readAsBinaryString(fileTobeRead);
+        });   
+        $('#upload-file').hide();
+    });
+
+    $('#action-button-div-download-minus').click(function() {
+        var uploadFile = '<input type="file" id="upload-file-minus" />';
+        $('BODY').prepend(uploadFile);
+
+        var fileContents = document.getElementById('upload-file-minus');
+        fileContents.click();
+        fileContents.addEventListener('change', function () { 
+            var fileTobeRead = fileContents.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {type: 'binary'});
+                var first_sheet_name = workbook.SheetNames[0];
+                /* Get worksheet */
+                var worksheet = workbook.Sheets[first_sheet_name];
+                var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
+                    raw: true
+                });
+
+                var keys = Object.keys(worksheetJSON[0]);
+                console.log(keys.length);
+                if($.trim(keys[0]) != 'Минус-слова') {
+                    log.show('Неверный формат файла', 'warning');
+                    return;
+                }
+                for(var i = 0; i < worksheetJSON.length; i++) {
+                    var w = worksheetJSON[i][keys[0]];
+                    listMinus.add(w);
+                }
+
+            }
+            fileReader.readAsBinaryString(fileTobeRead);
+        });   
+        $('#upload-file-minus').hide();
+    });
+
 
 /*-------------------------------------------------------------------------------------------*/
 

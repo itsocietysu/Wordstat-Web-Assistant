@@ -19,7 +19,6 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 				sendResponse({result: false});
 			}
 			break;
-		
-
 	}
 });
+
