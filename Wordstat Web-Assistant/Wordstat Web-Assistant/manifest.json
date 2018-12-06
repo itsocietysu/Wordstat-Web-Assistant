@@ -1,0 +1,53 @@
+{
+  "manifest_version": 2,
+  "browser_action": {
+  },
+  "background": {
+    "page": "background.html"
+  },
+
+  "content_scripts": [
+    {
+      "css": [
+        "/css/bootstrap.min.css",
+        "/css/style.css"
+      ],
+      "js": [
+        "/js/jquery-3.3.1.min.js",
+        "/js/popper.js",
+        "/js/bootstrap.min.js",
+        "/js/xlsx.full.min.js",
+        "/js/content.js"
+
+      ],
+      
+      "matches": [
+        "*://wordstat.yandex.ru/*",
+        "*://wordstat.yandex.by/*",
+        "*://wordstat.yandex.kz/*",
+        "*://wordstat.yandex.ua/*",
+        "*://wordstat.yandex.com/*",
+        "*://www.wordstat.yandex.ru/*",
+        "*://www.wordstat.yandex.by/*",
+        "*://www.wordstat.yandex.kz/*",
+        "*://www.wordstat.yandex.ua/*",
+        "*://www.wordstat.yandex.com/*"
+      ]
+    }
+  ],
+  
+  "web_accessible_resources": [
+    "css/style.css",
+    "fonts/Helvetica-Bold.ttf",
+    "fonts/dintextpro.ttf"
+  ],
+  "version": "1.0.0",
+  "name": "Wordstat Web-Assistant",
+  "description": "SEO-плагин, значительно ускоряющий сбор слов с помощью сервиса wordstat.yandex.ru",
+  "icons": {
+    "128": "images/logo.png",
+    "16": "images/logo.png",
+    "48": "images/logo.png"
+  }
+  
+}
