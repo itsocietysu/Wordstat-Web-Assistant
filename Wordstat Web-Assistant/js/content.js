@@ -190,7 +190,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
 /*-------------------------------------------------------------------------------------------*/
     // Шаблон элемента списка слов
-    var itemTpl = '<li><div class="li-wrap"><span>{word}</span> ({count})</div><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
+    var itemTpl = '<li><div class="li-wrap"><span class="word-span">{word}</span> <span>({count})</span></div><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
     // Шаблон элемента списка минус-слов
     var itemTplMinus = '<li><span>{word}</span><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
 
@@ -1208,7 +1208,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     });
     // Удаление елемента из списка
     $('#list-group-plus').on('click', '.words-del-div', function () {
-        var txt = $(this).parent().find('SPAN').text();
+        var txt = $(this).parent().find('.word-span').text();
         list.remove(txt);
         
         observerAdd.disconnect();
@@ -1344,10 +1344,69 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         $('#upload-file-minus').hide();
      });*/
 /*-------------------------------------------------------------------------------------------*/
+     var readAsCsv = function(fileTobeRead) {
+            var fileReader = new FileReader();
+            fileReader.readAsText(fileTobeRead);
+            fileReader.onloadend = function () {
+                var strings = fileReader.result.split('\n');
+                var firstString = strings[0].split(';');
+                if(!(firstString[0].indexOf('Ключевые слова') + 1) || !(firstString[1].indexOf('Частотность') + 1) || firstString.length != 2) {
+                    log.show('Неверный формат содержания', 'error');
+                    return;
+                }
+                for(var i = 1; i < strings.length - 1; i++) {
+                    var stringSplitted = strings[i].split(';');
+                    if(stringSplitted.length == 2) {
+                        var w = $.trim(stringSplitted[0]);
+                        var c = $.trim(stringSplitted[1]);
+                        list.add(w, c);
+                        observerAdd.disconnect();
+                        $('.word-action-button').each(function () {
+                            var phrase = $(this).next().text();
+                            if(phrase == w) {
+                                $(this).find('.minus-button').show();
+                                $(this).find('.plus-button').hide();
+                            }
+                        });
+                        doObserverAdd();
+                    }
+                    else {
+                        log.show('Неверный формат содержания', 'error');
+                        return;
+                    }
+                }
+                markPlus();
+            }
+    }
+
+
+    var readMinusAsCsv = function(fileTobeRead) {
+            var fileReader = new FileReader();
+            fileReader.readAsText(fileTobeRead);
+            fileReader.onloadend = function () {
+                var strings = fileReader.result.split('\n');
+                if(!(strings[0].indexOf('Минус-слова') + 1)) {
+                    log.show('Неверный формат содержания', 'warning');
+                    return;
+                }
+                for(var i = 1; i < strings.length - 1; i++) {
+                    if(strings.indexOf(';') + 1) {
+                        log.show('Неверный формат содержания', 'warning');
+                        return;
+                    }
+                    var w = $.trim(strings[i]);
+                    listMinus.add(w);
+                }
+                markMinus();
+            }
+    }
+
+/*-------------------------------------------------------------------------------------------*/
      // Загрузка из csv 
     $('#action-button-div-download').click(function() {
         var uploadFile = '<input type="file" id="upload-file" />';
         $('BODY').prepend(uploadFile);
+        $('#upload-file').hide();
 
         var fileContents = document.getElementById('upload-file');
         fileContents.click();
@@ -1356,7 +1415,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             var fileReader = new FileReader();
             fileReader.onload = function(e) {
                 var data = e.target.result;
-                var workbook = XLSX.read(data, {type: 'binary'});
+                try {
+                    var workbook = XLSX.read(data, {type: 'binary'});
+                }
+                catch(err) {
+                    if(err.message.indexOf('CFB file size') + 1) {
+                        readAsCsv(fileTobeRead);
+                    }
+                    else {
+                        log.show('Неверынй формат файла', 'error');
+                    }
+                    return;
+                }
                 var first_sheet_name = workbook.SheetNames[0];
                 /* Get worksheet */
                 var worksheet = workbook.Sheets[first_sheet_name];
@@ -1365,8 +1435,10 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 });
 
                 var keys = Object.keys(worksheetJSON[0]);
+
                 if($.trim(keys[0]) != 'Ключевые слова' || $.trim(keys[1]) != 'Частотность') {
-                    log.show('Неверный формат файла', 'warning');
+                    
+                    log.show('Неверный формат содержания', 'warning');
                     return;
                 }
                 for(var i = 0; i < worksheetJSON.length; i++) {
@@ -1382,18 +1454,20 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                             $(this).find('.plus-button').hide();
                         }
                     });
-                    doObserverAdd();
                 }
+                markPlus();
 
             }
             fileReader.readAsBinaryString(fileTobeRead);
         });   
-        $('#upload-file').hide();
+        $('#upload-file').remove();
     });
+
     // Загрузка из csv минус-слов
     $('#action-button-div-download-minus').click(function() {
         var uploadFile = '<input type="file" id="upload-file-minus" />';
         $('BODY').prepend(uploadFile);
+        $('#upload-file-minus').hide();
 
         var fileContents = document.getElementById('upload-file-minus');
         fileContents.click();
@@ -1402,29 +1476,42 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             var fileReader = new FileReader();
             fileReader.onload = function(e) {
                 var data = e.target.result;
-                var workbook = XLSX.read(data, {type: 'binary'});
-                var first_sheet_name = workbook.SheetNames[0];
-                /* Get worksheet */
-                var worksheet = workbook.Sheets[first_sheet_name];
-                var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
-                    raw: true
-                });
-
-                var keys = Object.keys(worksheetJSON[0]);
-                console.log(keys.length);
-                if($.trim(keys[0]) != 'Минус-слова') {
-                    log.show('Неверный формат файла', 'warning');
+                try {
+                    var workbook = XLSX.read(data, {type: 'binary'});
+                }
+                catch(err) {
+                    if(err.message.indexOf('CFB file size') + 1) {
+                        readMinusAsCsv(fileTobeRead);
+                    }
+                    else {
+                        log.show('Неверынй формат файла', 'error');
+                    }
                     return;
                 }
-                for(var i = 0; i < worksheetJSON.length; i++) {
-                    var w = worksheetJSON[i][keys[0]];
-                    listMinus.add(w);
-                }
 
+                    var first_sheet_name = workbook.SheetNames[0];
+                    /* Get worksheet */
+                    var worksheet = workbook.Sheets[first_sheet_name];
+                    var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
+                        raw: true
+                    });
+
+                    var keys = Object.keys(worksheetJSON[0]);
+                    console.log(keys.length);
+                    if($.trim(keys[0]) != 'Минус-слова') {
+                        log.show('Неверный формат содержания', 'warning');
+                        return;
+                    }
+                    for(var i = 0; i < worksheetJSON.length; i++) {
+                        var w = worksheetJSON[i][keys[0]];
+                        listMinus.add(w);
+                    }
+                    markMinus();
             }
             fileReader.readAsBinaryString(fileTobeRead);
+
         });   
-        $('#upload-file-minus').hide();
+        $('#upload-file-minus').remove();
     });
 
 /*-------------------------------------------------------------------------------------------------*/
@@ -1467,7 +1554,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                                return false;
                             }
                         }
-                        console.log("a");
+                        
                 });
 
                 
@@ -1717,7 +1804,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             return;
         }
         tmpStr += 'Ключевые слова; Частотность' + '\n';
-        data.find('span').each(function() {
+        data.find('.word-span').each(function() {
             tmpStr += $(this).text() + ';';
             tmpCount = $(this).next().text();
             tmpCount = tmpCount.replace(/[()]/g, '');
@@ -1747,27 +1834,33 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     $('#action-button-div-export').click(function(e) {
         var fileName = prompt('Введите имя файла для сохранения ключевых слов', 'key-words');
-        if(fileName == null || $.trim(fileName) == '') {
-            log.show('Неверно указано имя файла', 'warning');
+        if(fileName != null) {
+            if($.trim(fileName) == '') {
+                log.show('Неверно указано имя файла', 'warning');
+            }
+            else if(list.data.length == 0) {
+                log.show('Нечего сохранять', 'warning');
+            }
+            else {
+                log.show('Файл успешно загружен', 'success');
+                saveContent($.trim(fileName), true, false);
+            }
         }
-        else if(list.data.length == 0) {
-            log.show('Нечего сохранять', 'warning');
-        }
-        else {
-            saveContent($.trim(fileName), true, false);
-        }
-        
-        var minusFileName = prompt('Введите имя файла для сохранения ключевых слов', 'minus-words');
-        if(minusFileName == null || $.trim(minusFileName) == '') {
-            log.show('Неверно указано имя файла', 'warning');
-        }
-        else if(listMinus.data.length == 0) {
-            log.show('Нечего сохранять', 'warning');
-        }
-        else {
-            saveContent($.trim(minusFileName), false, true);
-        }
-       
+        setTimeout(function() {
+            var minusFileName = prompt('Введите имя файла для сохранения ключевых слов', 'minus-words');
+            if(minusFileName != null) {
+                if($.trim(minusFileName) == '') {
+                    log.show('Неверно указано имя файла', 'warning');
+                }
+                else if(listMinus.data.length == 0) {
+                    log.show('Нечего сохранять', 'warning');
+                }
+                else {
+                    saveContent($.trim(minusFileName), false, true);
+                    log.show('Файл успешно загружен', 'success');
+                }
+           }
+        }, 100);
     });
 
 /*-------------------------------------------------------------------------------------------*/
