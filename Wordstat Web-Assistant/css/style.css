@@ -1,3 +1,25 @@
+
+@font-face {
+    font-family: 'DinTextProRegular'; 
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/dintextpro.ttf') 
+}
+@font-face {
+	font-family: 'Helvetica_Bold';
+	src: url('chrome-extension://__MSG_@@extension_id__/fonts/Helvetica-Bold.ttf') 
+}
+/*-------------------------------------------------------------------------------------------*/
+/* Ряд без отступов */
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+/*-------------------------------------------------------------------------------------------*/
 #main {
 	padding-right: 0px;
 	padding-left: 0px;
@@ -12,7 +34,7 @@
 	cursor: default;
 	position:fixed
 }
-
+/*-------------------------------------------------------------------------------------------*/
 .cross {
 	position: absolute;
 	right: 15px;
@@ -32,7 +54,7 @@
 .cross:hover {
 	opacity: 1;
 }
-
+/*-------------------------------------------------------------------------------------------*/
 #windows-wrap {
 	top: 80px;
 	width: 16%;
@@ -65,19 +87,10 @@
 	display: none;
 }
 
-
 .word-add-col {
 	background-color: #ffffff;
 }
 
-@font-face {
-    font-family: 'DinTextProRegular'; 
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/dintextpro.ttf') 
-}
-@font-face {
-	font-family: 'Helvetica_Bold';
-	src: url('chrome-extension://__MSG_@@extension_id__/fonts/Helvetica-Bold.ttf') 
-}
 #add-area, #add-area-minus {
 	margin-left: 10%;
 	
@@ -144,7 +157,7 @@
 
 	border: none;
 }
-
+/*-------------------------------------------------------------------------------------------*/
 /* Добавить все */
 .addAll-wrap {
 	padding-bottom: 10px;
@@ -157,19 +170,7 @@
 	
 	cursor: pointer;
 }
-
-/* Ряд без отступов */
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-
-  > .col,
-  > [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0;
-  }
-}
-
+/*-------------------------------------------------------------------------------------------*/
 /* Кнопки */
 .action-button-div {
 	display: inline-block;
@@ -420,9 +421,7 @@
 	background-size: cover;
 }
 
-
-
-
+/*-------------------------------------------------------------------------------------------*/
 /* Слова в таблице */
 .word-parsed {
 	font-size: 12px;
@@ -446,7 +445,7 @@
 .minus-button:hover {
 	background-color: #fad8d9;
 }
-
+/*-------------------------------------------------------------------------------------------*/
 /* Уведомления */
 
 .notification {
@@ -477,16 +476,15 @@
 		 opacity:1;
 	 }
 }
-#column {
-	height: auto;
-}
+
+
 #colToAdd {
 	background-color: #ffffff;
 	height: auto;
 }
 .show-notification {
 	margin: 5px 5px 5px 5px;
-	font-family: 'dintextpro';
+	font-family: 'DinTextProRegular';
 	font-size: 15px;
 	text-align: center;
 	vertical-align: middle;
@@ -494,15 +492,15 @@
 	display: block;
 }
 #notification-success {
-	color: rgb(109,255,61);
+	color: rgb(62,194,21);
 }
 #notification-warning {
 	color: rgba(203, 50, 50, 1);
 }
 #notification-error {
-	color: #ffa390;
+	color: rgba(203, 50, 50, 1);
 }
-
+/*-------------------------------------------------------------------------------------------*/
 
 /* Структура */
 
@@ -558,7 +556,7 @@
 	min-height: 80px;
 	max-height: 140px;
 	overflow-y:  auto;
-	padding: 8px 0px 0px 20px;
+	padding: 8px 0px 0px 12px;
 }
 .list-group li {
 	padding-top: 5px;
@@ -569,11 +567,10 @@
 }
 .li-wrap {
 	display: inline-block;
-	margin-right: 22%;
+	margin-right: 27%;
 	color: rgba(66, 57, 57, 1);
 	text-decoration: none;
 }
-
 
 
 .words-del-div {
@@ -610,7 +607,6 @@
 	height: 5px;
 	background-color: rgba(216, 216, 216, 1);
 }
-
 
 #upload-file {
 	display: none;
