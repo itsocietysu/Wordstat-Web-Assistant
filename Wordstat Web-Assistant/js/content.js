@@ -1737,11 +1737,11 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             link = null;
         }
     }
-
+    var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
     var isCtrlDown = false;
     var isTriggered = false;
     $(document).keyup(function (e) {
-        if(e.which == 17 || e.metaKey) {
+        if(!(isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
             isCtrlDown = false;
             listMinus.add(minusPhrase);
             replaceLink();
@@ -1751,7 +1751,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             link = null;
         }
     }).keydown(function (e) {
-        if(e.which == 17 || e.metaKey) {
+        if(!(isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
             if(isCtrlDown == true){
                 return;
             }
