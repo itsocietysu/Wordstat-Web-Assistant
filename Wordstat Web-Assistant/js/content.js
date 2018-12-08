@@ -726,6 +726,22 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         doObserverAdd();
     }
 
+    var writeMinusToSearch = function() {
+        observerAdd.disconnect();
+        var input = $('.b-form-input__input').val();
+        for(var i = 0; i < listMinus.data.length; i++) {
+            var dataWithMinus = '-' + listMinus.data[i];
+            if(!(input.indexOf(dataWithMinus) + 1)) {
+                input += ' ' + dataWithMinus;
+            }
+        }
+        
+        $('.b-form-input__input').val(input);
+        doObserverAdd();
+    }
+    $('.b-form-button__input').click(function() {
+        writeMinusToSearch();
+    });
     /*---------------------------------------------------------------------------------------*/
     
    // Действия со списком минус-слов
@@ -1751,7 +1767,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             link = null;
         }
     }).keydown(function (e) {
-        if(!(isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
+        if((!isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
             if(isCtrlDown == true){
                 return;
             }
