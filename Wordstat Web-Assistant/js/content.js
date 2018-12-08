@@ -1757,7 +1757,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     var isCtrlDown = false;
     var isTriggered = false;
     $(document).keyup(function (e) {
-        if(!(isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
+        if((!isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
             isCtrlDown = false;
             listMinus.add(minusPhrase);
             replaceLink();
