@@ -1,20 +1,20 @@
 
-var transport = function (data, callback) {
+let transport = function (data, callback) {
     chrome.extension.sendMessage(data, callback);
 };
 
-var wordstatWebAssistantLoad = function ($, window, transport) {
+let wordstatWebAssistantLoad = function ($, window, transport) {
     // Основной блок (для отслеживания изменений)
-    var contentBlock = $('.b-wordstat-content');
+    let contentBlock = $('.b-wordstat-content');
 
     // Настройки
-    var options = {
+    let options = {
         // Сортировка
         order: 'abc', // abc, count
         sort: 'asc' // asc, desc
     };
 
-    var optionsMinus = {
+    let optionsMinus = {
         // Сортировка
         order: 'abc', // abc
         sort: 'asc' // asc, desc
@@ -22,17 +22,17 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     //Проверка существования элемента
     $.fn.exists = function () {
         return this.length !== 0;
-    }
+    };
     // Множественная форма слова
     function humanPluralForm(n, titles) {
-        var cases = [2, 0, 1, 1, 1, 2];
+        let cases = [2, 0, 1, 1, 1, 2];
         return titles[(n % 100 > 4 && n % 100 < 20) ? 2 : cases[Math.min(n % 10, 5)]];
     }
     /*-------------------------------------------------------------------------------------------*/
     // Блок плагина
-    var bodyTpl = 
+    let bodyTpl = 
     '<div class="container-fluid" id="main">' +
-      
+
       '<div class="row no-gutters row-top">' +
         '<div class="col" >' +
         '<div class="action-button-div action-button-div-logo"><i class="action-button-i action-button-i-logo" title="rocont.ru"></i></div>' +
@@ -84,10 +84,11 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     // Добавим wwa в начало BODY
     $('BODY').prepend(bodyTpl);
 
-    var body = $('#main');
-    var selectedSearchType = function () {
+
+    let body = $('#main');
+    let selectedSearchType = function () {
         
-        var el = $('input[name=search_type]:checked');
+        let el = $('input[name=search_type]:checked');
         if (el.val() == 'history') {
             body.hide();
         } else {
@@ -100,7 +101,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     selectedSearchType();
 
     // Всплывающие окна 
-    var addFromCopyTpl = 
+    let addFromCopyTpl = 
         '<div id="windows-wrap">' +
         '<div class="container-fluid addWindow" id="addRange">' +
           '<div class="row no-gutters row-top">' +
@@ -173,7 +174,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     $('BODY').prepend(addFromCopyTpl);
     //Уведомления
-    var showNotificationTpl =
+    let showNotificationTpl =
     '<div class="container-fluid notification">' +
         '<div class="row no-gutters row-top">' +
             '<div class="col" >' +
@@ -190,16 +191,16 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
 /*-------------------------------------------------------------------------------------------*/
     // Шаблон элемента списка слов
-    var itemTpl = '<li><div class="li-wrap"><span class="word-span">{word}</span> <span>({count})</span></div><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
+    let itemTpl = '<li><div class="li-wrap"><span class="word-span">{word}</span> <span>({count})</span></div><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
     // Шаблон элемента списка минус-слов
-    var itemTplMinus = '<li><span>{word}</span><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
+    let itemTplMinus = '<li><span>{word}</span><div class="words-del-div"><i class="words-del" title="Удалить из списка"></i></div></li>';
 
     
     // Nano Templates
      $.nano = function (template, data) {
         return template.replace(/\{([\w\.]*)\}/g, function (str, key) {
-            var keys = key.split(".");
-            var value = data[keys.shift()];
+            let keys = key.split(".");
+            let value = data[keys.shift()];
             $.each(keys, function () {
                 value = value[this];
             });
@@ -218,13 +219,13 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     }
 /*-------------------------------------------------------------------------------------------*/
    // Лог
-    var log = {
+    let log = {
         // Таймер
         timer: undefined,
 
         // Уведомление
         show: function (text, type) {
-            var notice = '</div><p class="show-notification" id="notification-' + type + '">' + text + '</p>';   
+            let notice = '</div><p class="show-notification" id="notification-' + type + '">' + text + '</p>';   
             $('#colToAdd').html(notice);
             
             $('.notification').stop(true, true).show();
@@ -240,7 +241,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     };
 /*-------------------------------------------------------------------------------------------*/
     // Хранилище
-    var storage = {
+    let storage = {
 
         // Сохранить
         save: function () {
@@ -321,7 +322,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // Загрузить данные минус-таблицы
         loadDataMinus: function () {
-            var wwaDataMinus = localStorage['WordstatWebAssistantMinus'];
+            let wwaDataMinus = localStorage['WordstatWebAssistantMinus'];
             if (wwaDataMinus != '' && wwaDataMinus != undefined) {
                 try {
                     wwaDataMinus = JSON.parse(wwaDataMinus);
@@ -336,9 +337,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
             listMinus.data = listMinus.prepareDatas(wwaDataMinus);
 
-            var input = $('.b-form-input__input').val();
-            for(var i = 0; i < listMinus.data.length; i ++) {
-                var wordWithMinus = '-' + listMinus.data[i];
+            let input = $('.b-form-input__input').val();
+            for(let i = 0; i < listMinus.data.length; i ++) {
+                let wordWithMinus = '-' + listMinus.data[i];
                 if(!(input.indexOf(wordWithMinus) + 1)){
                     input += ' ' + wordWithMinus;
                 }
@@ -348,7 +349,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         },
         // Загрузить данные
         loadData: function () {
-            var wwaData = localStorage['WordstatWebAssistant'];
+            let wwaData = localStorage['WordstatWebAssistant'];
             if (wwaData != '' && wwaData != undefined) {
                 try {
                     wwaData = JSON.parse(wwaData);
@@ -366,7 +367,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // Загрузить настройки минус-таблицы
         loadOptionsMinus: function () {
-            var wwaOptionsMinus = localStorage['WordstatWebAssistantOptionsMinus'];
+            let wwaOptionsMinus = localStorage['WordstatWebAssistantOptionsMinus'];
             if (wwaOptionsMinus != '' && wwaOptionsMinus != undefined) {
                 try {
                     wwaOptionsMinus = JSON.parse(wwaOptionsMinus);
@@ -383,7 +384,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         },
         // Загрузить настройки
         loadOptions: function () {
-            var wwaOptions = localStorage['WordstatWebAssistantOptions'];
+            let wwaOptions = localStorage['WordstatWebAssistantOptions'];
             if (wwaOptions != '' && wwaOptions != undefined) {
                 try {
                     wwaOptions = JSON.parse(wwaOptions);
@@ -402,19 +403,19 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     };
 /*-------------------------------------------------------------------------------------------*/
     //Действия со списком слов
-    var list = {
+    let list = {
 
         // Данные
         data: [],
 
         //Обновить
         update: function () {
-            var html = '';
-            var listData = list.data.slice(0);
+            let html = '';
+            let listData = list.data.slice(0);
 
-            for (var i = 0; i < listData.length; ++i) {
-                var w = listData[i].word;
-                var c = listData[i].count > 0 ? numberSpaces(listData[i].count) : '?';
+            for (let i = 0; i < listData.length; ++i) {
+                let w = listData[i].word;
+                let c = listData[i].count > 0 ? numberSpaces(listData[i].count) : '?';
                 html += $.nano(itemTpl, {word: w, count: c});
                 
             }
@@ -428,7 +429,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         sortData: function () {
 
             // Клонируем список
-            var data = list.data.slice(0);
+            let data = list.data.slice(0);
 
             // Сортировка
             switch (options.order) {
@@ -436,8 +437,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 // По алфавиту
                 case 'abc':
                     data.sort(function (a, b) {
-                        var compA = a.word.toUpperCase();
-                        var compB = b.word.toUpperCase();
+                        let compA = a.word.toUpperCase();
+                        let compB = b.word.toUpperCase();
                         if (compA == compB) {
                             return 0;
                         }
@@ -448,8 +449,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 // По частотности
                 case 'count':
                     data.sort(function (a, b) {
-                        var compA = a.count;
-                        var compB = b.count;
+                        let compA = a.count;
+                        let compB = b.count;
                         if (compA == compB) {
                             return 0;
                         }
@@ -513,11 +514,11 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
          */
         prepareDatas: function (listWord) {
 
-            var result = [];
+            let result = [];
             if ($.isArray(listWord)) {
-                for (var i = 0; i < listWord.length; ++i) {
+                for (let i = 0; i < listWord.length; ++i) {
                     if (typeof(listWord[i]) == 'object') {
-                        var data = list.prepareData(
+                        let data = list.prepareData(
                             listWord[i].word ? listWord[i].word : '',
                             listWord[i].count ? listWord[i].count : 0
                         );
@@ -525,7 +526,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                             result.push(data);
                         }
                     } else if (typeof(listWord[i]) == 'string') {
-                        var data = list.prepareData(listWord[i], 0);
+                        let data = list.prepareData(listWord[i], 0);
                         if (data) {
                             result.push(data);
                         }
@@ -538,7 +539,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         // Добавить
         add: function (word, count) {
             // Подготовим данные
-            var data = list.prepareData(word, count);
+            let data = list.prepareData(word, count);
             if (!data) {
                 return;
             }
@@ -549,19 +550,19 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 return;
             }
 
-            var listMinusData = listMinus.data.slice(0);
+            let listMinusData = listMinus.data.slice(0);
             
-            for(var i = 0; i < listMinusData.length; i++) {
+            for(let i = 0; i < listMinusData.length; i++) {
                 
                 if(data.word.indexOf(listMinusData[i]) + 1) {
                     if (confirm('Фраза "' + listMinusData[i] + '" содержится в списке минус-слов. Удалить из минус-слов?')) {
-                        for(var j = i; j < listMinusData.length; j++) {
+                        for(let j = i; j < listMinusData.length; j++) {
                             if(data.word.indexOf(listMinusData[j]) + 1) {
                                 listMinus.remove(listMinusData[j]);
 
                                 observerAdd.disconnect();
                                 $('.word-action-button').each(function () {
-                                    var phrase = $(this).next().text();
+                                    let phrase = $(this).next().text();
                                     if(phrase.indexOf(listMinusData[j]) + 1) {
                                         $(this).find('.plus-button').show();
                                         $(this).find('.minus-button').hide();
@@ -623,11 +624,10 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         // Очистить 
         clear: function () {
             if (confirm('Вы действительно хотите очистить список слов?')) {
-
                 // Очистить
                 list.data = [];
 
-                $('.new-search').each(function() { 
+                $('.new-search').each(function() {
                         $(this).prev().find('.plus-button').show();
                         $(this).prev().find('.minus-button').hide();
                         $(this).css("color", "#1a3dc1");
@@ -654,7 +654,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
 
             // Подготовим текст
-            var text = '',
+            let text = '',
                 listData = list.sortData();
             $.each(listData, function (i, item) {
                 if (text != '')
@@ -663,7 +663,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             });
 
             // Копируем
-            var config = {
+            let config = {
                 action: 'copy',
                 text: text
             };
@@ -678,12 +678,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         },
     };
 /*-------------------------------------------------------------------------------------------*/
-   var mark = function() {
+   let mark = function() {
         markPlus();
         markMinus();
-    }
+    };
 
-    var markPlus = function() {
+    let markPlus = function() {
         observerAdd.disconnect();
         $('.new-search').each(function () {
             if(list.has($(this).text())) {
@@ -691,18 +691,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
         });
         doObserverAdd();
-    }
+    };
 
-    var markMinus = function() {
+    let markMinus = function() {
         observerAdd.disconnect();
         $('.word-parsed').css("background-color", "transparent");
-        for(var i = 0; i < listMinus.data.length; i++) {
+        for(let i = 0; i < listMinus.data.length; i++) {
             $('.new-search').each(function() {
-                var keyWord = $(this).parent().prev().text();
+                let keyWord = $(this).parent().prev().text();
                 keyWord = keyWord + ' ';
-                minusWordSplitted = listMinus.data[i].split(' ');
-                var isContain = true;
-                for(var j = 0; j < minusWordSplitted.length; j++) {
+                let minusWordSplitted = listMinus.data[i].split(' ');
+                let isContain = true;
+                for(let j = 0; j < minusWordSplitted.length; j++) {
                     if(!(keyWord.indexOf(minusWordSplitted[j] + ' ') + 1)) {
                         isContain = false;
                         break;
@@ -713,7 +713,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                     $(this).prev().find('.plus-button').hide();
                     $(this).css("color", "#8B93A6")
                     $(this).find('SPAN').each(function () {
-                        for(var j = 0; j < minusWordSplitted.length; j++) {   
+                        for(let j = 0; j < minusWordSplitted.length; j++) {   
                             if($(this).text() == minusWordSplitted[j]) {
                                 $(this).css("background-color", "#fad8d9");
                             }
@@ -724,13 +724,13 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             });
         }
         doObserverAdd();
-    }
+    };
 
-    var writeMinusToSearch = function() {
+    let writeMinusToSearch = function() {
         observerAdd.disconnect();
-        var input = $('.b-form-input__input').val();
-        for(var i = 0; i < listMinus.data.length; i++) {
-            var dataWithMinus = '-' + listMinus.data[i];
+        let input = $('.b-form-input__input').val();
+        for(let i = 0; i < listMinus.data.length; i++) {
+            let dataWithMinus = '-' + listMinus.data[i];
             if(!(input.indexOf(dataWithMinus) + 1)) {
                 input += ' ' + dataWithMinus;
             }
@@ -738,24 +738,24 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         
         $('.b-form-input__input').val(input);
         doObserverAdd();
-    }
+    };
     $('.b-form-button__input').click(function() {
         writeMinusToSearch();
     });
     /*---------------------------------------------------------------------------------------*/
     
    // Действия со списком минус-слов
-    var listMinus = {
+    let listMinus = {
 
         // Данные
         data: [],
 
         update: function () {
-            var html = '';
-            var listData = listMinus.data.slice(0);
+            let html = '';
+            let listData = listMinus.data.slice(0);
 
-            for (var i = 0; i < listData.length; ++i) {
-                var w = listData[i];
+            for (let i = 0; i < listData.length; ++i) {
+                let w = listData[i];
                 html += $.nanoMinus(itemTplMinus, {word: w});
                 
             }
@@ -769,7 +769,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         sortData: function () {
 
             // Клонируем список
-            var data = listMinus.data.slice(0);
+            let data = listMinus.data.slice(0);
 
             // Сортировка
             switch (optionsMinus.order) {
@@ -777,8 +777,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 // По алфавиту
                 case 'abc':
                     data.sort(function (a, b) {
-                        var compA = a.toUpperCase();
-                        var compB = b.toUpperCase();
+                        let compA = a.toUpperCase();
+                        let compB = b.toUpperCase();
                         if (compA == compB) {
                             return 0;
                         }
@@ -834,18 +834,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
          */
         prepareDatas: function (listWord) {
 
-            var result = [];
+            let result = [];
             if ($.isArray(listWord)) {
-                for (var i = 0; i < listWord.length; ++i) {
+                for (let i = 0; i < listWord.length; ++i) {
                     if (typeof(listWord[i]) == 'object') {
-                        var data = listMinus.prepareData(
+                        let data = listMinus.prepareData(
                             listWord[i] ? listWord[i] : '',
                         );
                         if (data) {
                             result.push(data);
                         }
                     } else if (typeof(listWord[i]) == 'string') {
-                        var data = listMinus.prepareData(listWord[i]);
+                        let data = listMinus.prepareData(listWord[i]);
                         if (data) {
                             result.push(data);
                         }
@@ -860,7 +860,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         // Добавить
         add: function (word) {
             // Подготовим данные
-            var data = listMinus.prepareData(word);
+            let data = listMinus.prepareData(word);
             if (!data) {
                 return;
             }
@@ -871,12 +871,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 return;
             }
             
-            var listData = list.data.slice(0);
+            let listData = list.data.slice(0);
             
-            for(var i = 0; i < listData.length; i++) {
-                var dataSplitted = data.split(' ');
-                var isContain = true;
-                for(var k = 0; k < dataSplitted.length; k++) {
+            for(let i = 0; i < listData.length; i++) {
+                let dataSplitted = data.split(' ');
+                let isContain = true;
+                for(let k = 0; k < dataSplitted.length; k++) {
                     if(!(listData[i].word.indexOf(dataSplitted[k]) + 1)) {
                         isContain = false;
                     }
@@ -884,9 +884,9 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 if(isContain) {
                     if (confirm('Фраза "' + data + '" содержится в списке ключевых слов. Удалить из ключевых?')) {
                         list.remove(listData[i].word);
-                        for(var j = i + 1; j < listData.length; j++) {
+                        for(let j = i + 1; j < listData.length; j++) {
                             isContain = true;
-                            for(var k = 0; k < dataSplitted.length; k++) {
+                            for(let k = 0; k < dataSplitted.length; k++) {
                                 if(!(listData[j].word.indexOf(dataSplitted[k]) + 1)) {
                                     isContain = false;
                                 }
@@ -904,8 +904,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
 
             //Добавить в строку поиска
-            var input = $('.b-form-input__input').val();
-            var dataWithMinus = '-' + data;
+            let input = $('.b-form-input__input').val();
+            let dataWithMinus = '-' + data;
             if(!(input.indexOf(dataWithMinus) + 1)) {
                 input += ' ' + dataWithMinus;
             }
@@ -934,11 +934,11 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             listMinus.data = listMinus.data.filter(function (curWord) {
                 return curWord != word;
             });
-            var newInput ='';
-            var inputSplitted = $('.b-form-input__input').val().split(' ');
-            var wordSplitted = word.split(' ');
-            var wordWithMinus = '-' + wordSplitted[0];
-            for(var i = 0; i < inputSplitted.length; i++) {
+            let newInput ='';
+            let inputSplitted = $('.b-form-input__input').val().split(' ');
+            let wordSplitted = word.split(' ');
+            let wordWithMinus = '-' + wordSplitted[0];
+            for(let i = 0; i < inputSplitted.length; i++) {
                 if(!(inputSplitted[i] == wordWithMinus)) {
                     newInput += (inputSplitted[i] + ' ');
                 }
@@ -972,13 +972,14 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         clear: function () {
             if (confirm('Вы действительно хотите очистить список минус-слов?')) {
                 // Удалить из строки поиска
-                var newInput ='';
-                var inputSplitted = $('.b-form-input__input').val().split(' ');
-                for(var i = 0; i < inputSplitted.length; i++) {
-                    var isToAdd = true;
-                    for(var j = 0; j < listMinus.data.length; j++) {
-                        var wordMinusSplitted = listMinus.data[j].split(' ');
-                        var wordWithMinus = '-' + wordMinusSplitted[0];
+                let newInput ='';
+                let inputSplitted = $('.b-form-input__input').val().split(' ');
+                let wordMinusSplitted;
+                for(let i = 0; i < inputSplitted.length; i++) {
+                    let isToAdd = true;
+                    for(let j = 0; j < listMinus.data.length; j++) {
+                        wordMinusSplitted = listMinus.data[j].split(' ');
+                        let wordWithMinus = '-' + wordMinusSplitted[0];
                         if(inputSplitted[i] == wordWithMinus) {
                             isToAdd = false;
                             break;
@@ -1017,7 +1018,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         },
 
         // Копировать
-        copy: function (withCount) {
+        copy: function () {
 
             // А есть что копировать?
             if (listMinus.data.length == 0) {
@@ -1026,7 +1027,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
 
             // Подготовим текст
-            var text = '',
+            let text = '',
                 listData = listMinus.sortData();
             $.each(listData, function (i, item) {
                 if (text != '')
@@ -1035,7 +1036,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             });
 
             // Копируем
-            var config = {
+            let config = {
                 action: 'copy',
                 text: text
             };
@@ -1053,7 +1054,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     };
 /*-------------------------------------------------------------------------------------------*/
     // Добавление кнопок и парсинг фразы
-    var addActionButtons = function () {
+    let addActionButtons = function () {
 
         observerAdd.disconnect();
         
@@ -1061,7 +1062,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         $(".b-icon_type_question").remove();
 
         // Кнопки добавления / удаления фраз
-        var templateWordAction = '<span class="word-action-button">' +
+        let templateWordAction = '<span class="word-action-button">' +
             '<b class="minus-button" style="display: none;" title="Удалить из списка">−</b>' +
             '<b class="plus-button" style="display: none;" title="Добавить в список">+</b>' +
             '</span>';
@@ -1071,17 +1072,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             $(this).css("display", "none");
 
             //Парсим по словам
-            var phrase = $(this).text();
+            let phrase = $(this).text();
             phrase = $.trim(phrase);
             wordsSplitted = phrase.split(' ');
             
             //Формируем html-код
-            var newPhraseLink = '<span class="wwa-phrase-link">' +
+            let newPhraseLink = '<span class="wwa-phrase-link">' +
                                         templateWordAction +
                                         '<a class="new-search" href="https://wordstat.yandex.ru/#!/?words=' + phrase + '" target="_self" style="text-decoration:underline;">';
 
-            var phraseParsedHtml = '';
-            for (var i = 0; i < wordsSplitted.length - 1; ++i) {
+            let phraseParsedHtml = '';
+            let i = 0;
+            for (i = 0; i < wordsSplitted.length - 1; ++i) {
                 phraseParsedHtml += ('<span class="word-parsed">' + wordsSplitted[i] + '</span><b> </b>');    
             }
             phraseParsedHtml += ('<span class="word-parsed">' + wordsSplitted[i] + '</span>');
@@ -1094,7 +1096,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // вывести + или - и сохранить фразу
         $('.word-action-button').each(function () {
-            var phrase = $(this).next().text();
+            let phrase = $(this).next().text();
             phrase = $.trim(phrase);
             if (list.has(phrase)) {
                 //$('.minus-button', this).data('phrase', phrase);
@@ -1107,12 +1109,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // Добавить фразу
         $('.plus-button').click(function () {
-            var phrase = $(this).parent().parent().prev().text();
+            let phrase = $(this).parent().parent().prev().text();
 
-            var listData = list.data.slice(0);
-            for (var i = 0; i < listData.length; ++i) {
-                var w = listData[i].word;
-                var c = listData[i].count;
+            let listData = list.data.slice(0);
+            for (let i = 0; i < listData.length; ++i) {
+                let w = listData[i].word;
+                let c = listData[i].count;
                 if(phrase == w && c == 0) {
                     list.remove(phrase);
                     break;
@@ -1130,19 +1132,19 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
         // Удалить фразу
         $('.minus-button').click(function () {
-            var phrase = $(this).parent().parent().prev().text();
+            let phrase = $(this).parent().parent().prev().text();
             if(list.has(phrase)) {
                 list.remove(phrase);
             }
             else {
-                var phraseSplitted = phrase.split(' ');
-                var arrToDel = [];
-                for(var i = 0; i < listMinus.data.length; i++) {
-                    var minusWordSplitted = listMinus.data[i].split(' ');
+                let phraseSplitted = phrase.split(' ');
+                let arrToDel = [];
+                for(let i = 0; i < listMinus.data.length; i++) {
+                    let minusWordSplitted = listMinus.data[i].split(' ');
 
-                    var isContain = true;
-                    for(var j = 0; j < minusWordSplitted.length; j++) {
-                        var k;
+                    let isContain = true;
+                    for(let j = 0; j < minusWordSplitted.length; j++) {
+                        let k;
                         for(k = 0; k < phraseSplitted.length; k++) {
                             if($.trim(phraseSplitted[k]) == $.trim(minusWordSplitted[j])){
                                 break;
@@ -1157,7 +1159,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                         arrToDel.push(listMinus.data[i]);
                     }
                 }
-                for(var i = 0; i < arrToDel.length; i++) {
+                for(let i = 0; i < arrToDel.length; i++) {
                     listMinus.remove(arrToDel[i]);
                 }
             }
@@ -1167,14 +1169,14 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         });
 
         //Кнопки Добавить все/удалить все
-        var addAllKeyTpl = '<div addAll-wrap><b class="addAll">Добавить все</b>/<b class="delAll">Удалить все</b></div>';
+        let addAllKeyTpl = '<div addAll-wrap><b class="addAll">Добавить все</b>/<b class="delAll">Удалить все</b></div>';
         $('.b-word-statistics__table').before(addAllKeyTpl);
 
         $('.addAll').click(function () {
             if (confirm('Вы действительно хотите добавить в список все слова из этой таблицы?')) {
-                var c = list.data.length;
+                let c = list.data.length;
                 $(this).closest('.b-word-statistics__column').find('.word-action-button').each(function() {
-                    var plusBut = $(this).find('.plus-button');
+                    let plusBut = $(this).find('.plus-button');
                     if($(plusBut).css('display') !== 'none') {
                         $(plusBut).click();
                     }
@@ -1202,12 +1204,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     };
 
     //Отслеживание изменений
-    var target = contentBlock.get(0);
-    var observerOptions = {childList: true, subtree: true};
-    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    let target = contentBlock.get(0);
+    let observerOptions = {childList: true, subtree: true};
+    let MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-    var observerAdd = new MutationObserver(addActionButtons);
-    var doObserverAdd = function () {
+    let observerAdd = new MutationObserver(addActionButtons);
+    let doObserverAdd = function () {
         observerAdd.observe(target, observerOptions);
     };
 
@@ -1224,12 +1226,12 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     });
     // Удаление елемента из списка
     $('#list-group-plus').on('click', '.words-del-div', function () {
-        var txt = $(this).parent().find('.word-span').text();
+        let txt = $(this).parent().find('.word-span').text();
         list.remove(txt);
         
         observerAdd.disconnect();
         $('.word-action-button').each(function () {
-            var phrase = $(this).next().text();
+            let phrase = $(this).next().text();
             if(phrase == txt) {
                 $(this).find('.plus-button').show();
                 $(this).find('.minus-button').hide();
@@ -1243,27 +1245,14 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     // Удаление элемента из минус-списка
     $('#list-group-minus').on('click', '.words-del-div', function () {
-        var txt = $(this).parent().find('SPAN').text();
+        let txt = $(this).parent().find('SPAN').text();
         listMinus.remove(txt);
     });
 
     // Очистить список
     $('#action-button-div-delete').click(function () {
 
-        var data = list.data;
         list.clear();
-        // Отобразить плюсы вместо минусов 
-        observerAdd.disconnect();
-        $('.word-action-button').each(function () {
-            var phrase = $(this).next().text();
-            for(var i = 0; i < data.length; i++) {
-                if(phrase == data[i].word) {
-                    $(this).find('.plus-button').show();
-                    $(this).find('.minus-button').hide();
-                }
-            }
-        });
-        doObserverAdd();
     });
 
     //Очистить минус-список
@@ -1285,34 +1274,25 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
         list.copy(true);
      });
 /*-------------------------------------------------------------------------------------------*/
-     // Загрузка из csv
-     /*$('#action-button-div-download').click(function() {
-        var uploadFile = '<input type="file" id="upload-file" />';
-        $('BODY').prepend(uploadFile);
-
-        var fileContents = document.getElementById('upload-file');
-        fileContents.click();
-        fileContents.addEventListener('change', function (e) { 
-            var fileTobeRead = fileContents.files[0];
-            var fileReader = new FileReader();
-            fileReader.onload = function(e) {}
+     let readAsCsv = function(fileTobeRead) {
+            let fileReader = new FileReader();
             fileReader.readAsText(fileTobeRead);
             fileReader.onloadend = function () {
-                var strings = fileReader.result.split('\n');
-                var firstString = strings[0].split(';');
+                let strings = fileReader.result.split('\n');
+                let firstString = strings[0].split(';');
                 if(!(firstString[0].indexOf('Ключевые слова') + 1) || !(firstString[1].indexOf('Частотность') + 1) || firstString.length != 2) {
                     log.show('Неверный формат файла', 'error');
                     return;
                 }
-                for(var i = 1; i < strings.length - 1; i++) {
-                    var stringSplitted = strings[i].split(';');
+                for(let i = 1; i < strings.length - 1; i++) {
+                    let stringSplitted = strings[i].split(';');
                     if(stringSplitted.length == 2) {
-                        var w = $.trim(stringSplitted[0]);
-                        var c = $.trim(stringSplitted[1]);
+                        let w = $.trim(stringSplitted[0]);
+                        let c = $.trim(stringSplitted[1]);
                         list.add(w, c);
                         observerAdd.disconnect();
                         $('.word-action-button').each(function () {
-                            var phrase = $(this).next().text();
+                            let phrase = $(this).next().text();
                             if(phrase == w) {
                                 $(this).find('.minus-button').show();
                                 $(this).find('.plus-button').hide();
@@ -1325,114 +1305,49 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                         return;
                     }
                 }
-            }
-        });
-        $('#upload-file').hide();
-     });*/
-
-     /*$('#action-button-div-download-minus').click(function() {
-        var uploadFile = '<input type="file" id="upload-file-minus" />';
-        $('BODY').prepend(uploadFile);
-
-        var fileContents = document.getElementById('upload-file-minus');
-        fileContents.click();
-        fileContents.addEventListener('change', function (e) { 
-            var fileTobeRead = fileContents.files[0];
-            var fileReader = new FileReader();
-            fileReader.onload = function(e) {}
-            fileReader.readAsText(fileTobeRead);
-            fileReader.onloadend = function () {
-                var strings = fileReader.result.split('\n');
-                if(!(strings[0].indexOf('Минус-слова') + 1)) {
-                    log.show('Неверный формат файла');
-                    return;
-                }
-                for(var i = 1; i < strings.length - 1; i++) {
-                    if(strings.indexOf(';') + 1) {
-                        log.show('Неверный формат файла');
-                        return;
-                    }
-                    var w = $.trim(strings[i]);
-                    listMinus.add(w);
-                }
-            }
-        });
-        $('#upload-file-minus').hide();
-     });*/
-/*-------------------------------------------------------------------------------------------*/
-     var readAsCsv = function(fileTobeRead) {
-            var fileReader = new FileReader();
-            fileReader.readAsText(fileTobeRead);
-            fileReader.onloadend = function () {
-                var strings = fileReader.result.split('\n');
-                var firstString = strings[0].split(';');
-                if(!(firstString[0].indexOf('Ключевые слова') + 1) || !(firstString[1].indexOf('Частотность') + 1) || firstString.length != 2) {
-                    log.show('Неверный формат содержания', 'error');
-                    return;
-                }
-                for(var i = 1; i < strings.length - 1; i++) {
-                    var stringSplitted = strings[i].split(';');
-                    if(stringSplitted.length == 2) {
-                        var w = $.trim(stringSplitted[0]);
-                        var c = $.trim(stringSplitted[1]);
-                        list.add(w, c);
-                        observerAdd.disconnect();
-                        $('.word-action-button').each(function () {
-                            var phrase = $(this).next().text();
-                            if(phrase == w) {
-                                $(this).find('.minus-button').show();
-                                $(this).find('.plus-button').hide();
-                            }
-                        });
-                        doObserverAdd();
-                    }
-                    else {
-                        log.show('Неверный формат содержания', 'error');
-                        return;
-                    }
-                }
                 markPlus();
             }
-    }
+    };
 
 
-    var readMinusAsCsv = function(fileTobeRead) {
-            var fileReader = new FileReader();
+    let readMinusAsCsv = function(fileTobeRead) {
+            let fileReader = new FileReader();
             fileReader.readAsText(fileTobeRead);
             fileReader.onloadend = function () {
-                var strings = fileReader.result.split('\n');
+                let strings = fileReader.result.split('\n');
                 if(!(strings[0].indexOf('Минус-слова') + 1)) {
-                    log.show('Неверный формат содержания', 'warning');
+                    log.show('Неверный формат файла', 'warning');
                     return;
                 }
-                for(var i = 1; i < strings.length - 1; i++) {
+                for(let i = 1; i < strings.length - 1; i++) {
                     if(strings.indexOf(';') + 1) {
-                        log.show('Неверный формат содержания', 'warning');
+                        log.show('Неверный формат файла', 'warning');
                         return;
                     }
-                    var w = $.trim(strings[i]);
+                    let w = $.trim(strings[i]);
                     listMinus.add(w);
                 }
                 markMinus();
             }
-    }
+    };
 
 /*-------------------------------------------------------------------------------------------*/
      // Загрузка из csv 
     $('#action-button-div-download').click(function() {
-        var uploadFile = '<input type="file" id="upload-file" />';
+        let uploadFile = '<input type="file" id="upload-file" />';
         $('BODY').prepend(uploadFile);
         $('#upload-file').hide();
 
-        var fileContents = document.getElementById('upload-file');
+        let fileContents = document.getElementById('upload-file');
         fileContents.click();
         fileContents.addEventListener('change', function () { 
-            var fileTobeRead = fileContents.files[0];
-            var fileReader = new FileReader();
+            let fileTobeRead = fileContents.files[0];
+            let fileReader = new FileReader();
             fileReader.onload = function(e) {
-                var data = e.target.result;
+                let data = e.target.result;
+                let workbook = XLSX.read(data, {type: 'binary'});
                 try {
-                    var workbook = XLSX.read(data, {type: 'binary'});
+                    workbook = XLSX.read(data, {type: 'binary'});
                 }
                 catch(err) {
                     if(err.message.indexOf('CFB file size') + 1) {
@@ -1443,28 +1358,28 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                     }
                     return;
                 }
-                var first_sheet_name = workbook.SheetNames[0];
+                let first_sheet_name = workbook.SheetNames[0];
                 /* Get worksheet */
-                var worksheet = workbook.Sheets[first_sheet_name];
-                var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
+                let worksheet = workbook.Sheets[first_sheet_name];
+                let worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
                     raw: true
                 });
 
-                var keys = Object.keys(worksheetJSON[0]);
+                let keys = Object.keys(worksheetJSON[0]);
 
                 if($.trim(keys[0]) != 'Ключевые слова' || $.trim(keys[1]) != 'Частотность') {
                     
-                    log.show('Неверный формат содержания', 'warning');
+                    log.show('Неверный формат файла', 'warning');
                     return;
                 }
-                for(var i = 0; i < worksheetJSON.length; i++) {
-                    var w = worksheetJSON[i][keys[0]];
-                    var c = worksheetJSON[i][keys[1]];
+                for(let i = 0; i < worksheetJSON.length; i++) {
+                    let w = worksheetJSON[i][keys[0]];
+                    let c = worksheetJSON[i][keys[1]];
 
                     list.add(w, c);
                     observerAdd.disconnect();
                     $('.word-action-button').each(function () {
-                        var phrase = $(this).next().text();
+                        let phrase = $(this).next().text();
                         if(phrase == w) {
                             $(this).find('.minus-button').show();
                             $(this).find('.plus-button').hide();
@@ -1473,7 +1388,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 }
                 markPlus();
 
-            }
+            };
             fileReader.readAsBinaryString(fileTobeRead);
         });   
         $('#upload-file').remove();
@@ -1481,19 +1396,20 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
     // Загрузка из csv минус-слов
     $('#action-button-div-download-minus').click(function() {
-        var uploadFile = '<input type="file" id="upload-file-minus" />';
+        let uploadFile = '<input type="file" id="upload-file-minus" />';
         $('BODY').prepend(uploadFile);
         $('#upload-file-minus').hide();
 
-        var fileContents = document.getElementById('upload-file-minus');
+        let fileContents = document.getElementById('upload-file-minus');
         fileContents.click();
         fileContents.addEventListener('change', function () { 
-            var fileTobeRead = fileContents.files[0];
-            var fileReader = new FileReader();
+            let fileTobeRead = fileContents.files[0];
+            let fileReader = new FileReader();
             fileReader.onload = function(e) {
-                var data = e.target.result;
+                let data = e.target.result;
+                let workbook;
                 try {
-                    var workbook = XLSX.read(data, {type: 'binary'});
+                    workbook = XLSX.read(data, {type: 'binary'});
                 }
                 catch(err) {
                     if(err.message.indexOf('CFB file size') + 1) {
@@ -1505,25 +1421,25 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                     return;
                 }
 
-                    var first_sheet_name = workbook.SheetNames[0];
+                    let first_sheet_name = workbook.SheetNames[0];
                     /* Get worksheet */
-                    var worksheet = workbook.Sheets[first_sheet_name];
-                    var worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
+                    let worksheet = workbook.Sheets[first_sheet_name];
+                    let worksheetJSON = XLSX.utils.sheet_to_json(worksheet, {
                         raw: true
                     });
 
-                    var keys = Object.keys(worksheetJSON[0]);
-                    console.log(keys.length);
+                    let keys = Object.keys(worksheetJSON[0]);
+
                     if($.trim(keys[0]) != 'Минус-слова') {
-                        log.show('Неверный формат содержания', 'warning');
+                        log.show('Неверный формат файла', 'warning');
                         return;
                     }
-                    for(var i = 0; i < worksheetJSON.length; i++) {
-                        var w = worksheetJSON[i][keys[0]];
+                    for(let i = 0; i < worksheetJSON.length; i++) {
+                        let w = worksheetJSON[i][keys[0]];
                         listMinus.add(w);
                     }
                     markMinus();
-            }
+            };
             fileReader.readAsBinaryString(fileTobeRead);
 
         });   
@@ -1532,7 +1448,77 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 
 /*-------------------------------------------------------------------------------------------------*/
     // Добавление фраз с заданной частотностью
-        
+    let c;
+    function collectPromise(countFrom, countTo) {
+        return new Promise((resolve, reject) => {
+            setTimeout(function () {
+                $('.word-parsed').ready (function() {
+
+                    let column = $('.b-word-statistics__column').first().find('.word-action-button');
+                    if(column.length == 0) {
+                        setTimeout(function () {
+                            window.location = 'https://wordstat.yandex.ru/#!/?page=1&words=' + $('.b-form-input__input').val();
+                            c = list.data.length - c;
+                            if (c > 0) {
+                                log.show('<b>' + c + ' ' + humanPluralForm(c, ['слово', 'слова', 'слов']) + '</b> добавлено в список', 'success');
+                            } else {
+                                log.show('В список не было добавлено ни одного слова', 'warning');
+                            }
+                        }, 500);
+                        resolve(false);
+                    }
+                    $(column).each(function () {
+
+                        let plusBut = $(this).find('.plus-button');
+                        if ($(plusBut).css('display') !== 'none') {
+
+                            let tmpCount = $(this).parent().parent().next().text();
+                            tmpCount = parseInt((tmpCount + '').replace(/[^\d]/gi, ''));
+
+                            if (tmpCount >= countFrom && tmpCount <= countTo) {
+                                $(plusBut).click();
+                            } else if (tmpCount < countFrom) {
+                                setTimeout(function () {
+
+                                    window.location = 'https://wordstat.yandex.ru/#!/?page=1&words=' + $('.b-form-input__input').val();
+                                    c = list.data.length - c;
+                                    if (c > 0) {
+                                        log.show('<b>' + c + ' ' + humanPluralForm(c, ['слово', 'слова', 'слов']) + '</b> добавлено в список', 'success');
+                                    } else {
+                                        log.show('В список не было добавлено ни одного слова', 'warning');
+                                    }
+                                }, 500);
+                                resolve(false);
+                                return false;
+                            }
+                        }
+
+                    });
+
+                    resolve(true);
+                });
+            }, 300);
+        });
+    }
+
+    async function addFromTo(countFrom, countTo) {
+
+        let count = 1;
+        let goToNext;
+        c = list.data.length;
+
+        for(let i = 0; i < 100; i ++) {
+
+            window.location = 'https://wordstat.yandex.ru/#!/?page=' + count + '&words=' + $('.b-form-input__input').val();
+            goToNext = await collectPromise(countFrom, countTo);
+
+            if(!goToNext) {
+                break;
+            }
+            count++;
+        }
+    }
+
         $('#action-button-div-range').click(function () {
             $('#addRange').show();
 
@@ -1550,47 +1536,19 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             });
         });
 
-        var addFrequency = function(countFrom, countTo) {
-            
-            $(document).ready(function() {
-                
-                $('.b-word-statistics__column').first().find('.word-action-button').each(function() {
-                        var plusBut = $(this).find('.plus-button');
-                        if($(plusBut).css('display') !== 'none') {
-                            var tmpCount = $(this).parent().parent().next().text();
-                            tmpCount = parseInt((tmpCount + '').replace(/[^\d]/gi, ''));
-                            if(isNaN(tmpCount)) {
-                                tmpCount = -1;
-                            }
-                            if(tmpCount >= countFrom && tmpCount <= countTo) {
-                                $(plusBut).click();
-                            }
-                            else if(tmpCount < countFrom) {
-                               
-                               return false;
-                            }
-                        }
-                        
-                });
-
-                
-            });
-            
-        }
-
         $('#button-apply').click(function () {
             $('#addRange').hide();
 
-            var countFrom = $('#input-from').val();
+            let countFrom = $('#input-from').val();
             countFrom = parseInt(countFrom);
             $('#input-from').val('');
 
-            var countTo = $('#input-to').val();
+            let countTo = $('#input-to').val();
             countTo = parseInt(countTo);
             $('#input-to').val('');
 
             if(countFrom > countTo) {
-                var tmpCount = countFrom;
+                let tmpCount = countFrom;
                 countFrom = countTo;
                 countTo = tmpCount;
             }
@@ -1605,17 +1563,18 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             if(isNaN(countTo)) {
                 countTo = 1000000000;
             }
+
+            addFromTo(countFrom, countTo);
+            //let c = list.data.length;
+            //window.location = 'https://wordstat.yandex.ru/#!/?page=1&words=' + $('.b-form-input__input').val();
+            /*let nextPageCount = 1;
             
-            var c = list.data.length;
-            window.location = 'https://wordstat.yandex.ru/#!/?page=1&words=' + $('.b-form-input__input').val();
-            var nextPageCount = 1;
-            
-            var timerId = setTimeout(function addFreq() {
+            let timerId = setTimeout(function addFreq() {
               $(document).ready(function() {
                 $('.b-word-statistics__column').first().find('.word-action-button').each(function() {
-                        var plusBut = $(this).find('.plus-button');
+                        let plusBut = $(this).find('.plus-button');
                         if($(plusBut).css('display') !== 'none') {
-                            var tmpCount = $(this).parent().parent().next().text();
+                            let tmpCount = $(this).parent().parent().next().text();
                             tmpCount = parseInt((tmpCount + '').replace(/[^\d]/gi, ''));
                             if(isNaN(tmpCount)) {
                                 tmpCount = -1;
@@ -1643,8 +1602,8 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 window.location = 'https://wordstat.yandex.ru/#!/?page=' + nextPageCount + '&words=' + $('.b-form-input__input').val();
                 
                 });
-              timerId = setTimeout(addFreq, 1000);
-            }, 1000);
+              timerId = setTimeout(addFreq, 1500);
+            }, 1500);*/
                 
         });
 /*-------------------------------------------------------------------------------------------------*/
@@ -1683,21 +1642,21 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
       $('#button-add').click(function() {
         
         $('#addFromCopy').hide();
-        var wordsToAdd = $('#add-area').val();
+        let wordsToAdd = $('#add-area').val();
         $('#add-area').val('');
         
-        var wordsToAddSplitted = wordsToAdd.split('\n');
-        for(var i = 0; i < wordsToAddSplitted.length; i++) {
+        let wordsToAddSplitted = wordsToAdd.split('\n');
+        for(let i = 0; i < wordsToAddSplitted.length; i++) {
             list.add(wordsToAddSplitted[i]);
         }    
       });
       $('#button-add-minus').click(function() {
         $('#addFromCopyMinus').hide();
-        var wordsToAdd = $('#add-area-minus').val();
+        let wordsToAdd = $('#add-area-minus').val();
         $('#add-area-minus').val('');
         
-        var wordsToAddSplitted = wordsToAdd.split('\n');
-        for(var i = 0; i < wordsToAddSplitted.length; i++) {
+        let wordsToAddSplitted = wordsToAdd.split('\n');
+        for(let i = 0; i < wordsToAddSplitted.length; i++) {
             listMinus.add(wordsToAddSplitted[i]);
         }
       });
@@ -1705,66 +1664,54 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
 /*-------------------------------------------------------------------------------------------*/
     // Работа с минус-режимом при нажатии ctrl
 
-    var minusPhrase = '';
-    var link;
-
-
-    var replaceLink = function() {
+    let replaceLink = function() {
         observerAdd.disconnect();
         $('.new-search').each(function () {
-            var wordChilds = $(this).children(".word-parsed");
-            var phraseMinusMode = '';
-            for(var i = 0; i < wordChilds.length - 1; ++i) {
+            let wordChilds = $(this).children(".word-parsed");
+            let phraseMinusMode = '';
+            let i = 0;
+            for(i = 0; i < wordChilds.length - 1; ++i) {
                 phraseMinusMode += ($(wordChilds[i]).text() + ' ');
             }
             phraseMinusMode += $(wordChilds[i]).text();
-            var phraseMinusModeSpaced = phraseMinusMode + ' ';
-                
-             $(this).replaceWith('<a class="new-search" href="https://wordstat.yandex.ru/#!/?words=' + phraseMinusMode + '" target="_self" style="text-decoration:underline;">' + $(this).html() + '</a>');
+            $(this).replaceWith('<a class="new-search" href="https://wordstat.yandex.ru/#!/?words=' + phraseMinusMode + '" target="_self" style="text-decoration:underline;">' + $(this).html() + '</a>');
 
         }); 
-    }
-    var bodyHandler = function(event) {
-        var target = $(event.target);
+    };
+    let bodyHandler = function(event) {
+        let target = $(event.target);
         if(target.attr('class') == 'word-parsed') {
-                target.hover(function() {
-                    target.css("background-color", "#c2d2ff");
-                }, function() {
-                    target.css("background-color", "#c2d2ff");
-                });
-                if(!link || link.is(target.parent())) {
-                    if(!(minusPhrase.indexOf(target.text()) + 1)) {
-                        minusPhrase += target.text() + ' ';
+                if(!listMinus.has(target.text())) {
+                    listMinus.add(target.text());
+                }
+
+                $('.word-parsed').each(function() {
+                    if(listMinus.has($(this).text())) {
+                        $(this).hover(function() {
+                            $(this).css("background-color", "rgb(250, 216, 217)");
+                        }, function() {
+                            $(this).css("background-color", "rgb(250, 216, 217)");
+                        });
                     }
-                }
-                else if(link){
-                    listMinus.add(minusPhrase);
-                    minusPhrase = target.text() + ' ';
-                }
-                link = target.parent();
+                });
         }
         else if(target.css('cursor') == 'pointer') {
             isCtrlDown = false;
-            listMinus.add(minusPhrase);
             replaceLink();
             mark();
-            minusPhrase = '';
             $('body').unbind('click', bodyHandler);
-            link = null;
         }
-    }
-    var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    var isCtrlDown = false;
-    var isTriggered = false;
+    };
+    let isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    let isCtrlDown = false;
+
     $(document).keyup(function (e) {
         if((!isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
+
             isCtrlDown = false;
-            listMinus.add(minusPhrase);
             replaceLink();
             mark();
-            minusPhrase = '';
             $('body').unbind('click', bodyHandler);
-            link = null;
         }
     }).keydown(function (e) {
         if((!isMac && e.which == 17) || (isMac && (e.which == 91 || e.which == 93))) {
@@ -1790,20 +1737,23 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
                 });
             });
             $('body').click(bodyHandler);
-
-            minusPhrase = $.trim(minusPhrase);
             mark();
         }
     });
 
  /*-------------------------------------------------------------------------------------------*/   
     // Выгрузка в csv
+
+    function isLetter(c) {
+        return c.toLowerCase() != c.toUpperCase();
+    }
+
     jQuery.fn.toCSV = function(link, withCount, minusMode) {
-      var $link = $(link);
+      let $link = $(link);
 
-      var data = $(this).first(); //Only one table
+      let data = $(this).first(); //Only one table
 
-      var tmpStr = '';
+      let tmpStr = '';
       if(!withCount) {
         if(!minusMode) {
             tmpStr += 'Ключевые слова' + '\n';
@@ -1812,7 +1762,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             tmpStr += 'Минус-слова' + '\n';
         }
         data.find('span').each(function() {
-            tmpStr += $(this).text() + '\n';
+            tmpStr += ' ' + $(this).text() + '\n';
         });
       }
       else {
@@ -1820,24 +1770,29 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             return;
         }
         tmpStr += 'Ключевые слова; Частотность' + '\n';
+        let tmpCount;
         data.find('.word-span').each(function() {
+
+            if(!isLetter($(this).text().charAt(0))) {
+                tmpStr += ' ';
+            }
             tmpStr += $(this).text() + ';';
             tmpCount = $(this).next().text();
             tmpCount = tmpCount.replace(/[()]/g, '');
             tmpStr += tmpCount + '\n';
         });
       }
-      var BOM = '\uFEFF';
-      var output = BOM + tmpStr;
+      let BOM = '\uFEFF';
+      let output = BOM + tmpStr;
 
 
-      var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(output);
+      let uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(output);
       $link.attr("href", uri);
-    }
+    };
 
     function saveContent(fileName, withCount, minusMode)
     {
-        var link = document.createElement('a');
+        let link = document.createElement('a');
         link.download = fileName + '.csv';
         if(minusMode) {
             $('#list-group-minus').toCSV(link, withCount, minusMode);
@@ -1849,7 +1804,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
     }
 
     $('#action-button-div-export').click(function(e) {
-        var fileName = prompt('Введите имя файла для сохранения ключевых слов', 'key-words');
+        let fileName = prompt('Введите имя файла для сохранения ключевых слов', 'key-words');
         if(fileName != null) {
             if($.trim(fileName) == '') {
                 log.show('Неверно указано имя файла', 'warning');
@@ -1863,7 +1818,7 @@ var wordstatWebAssistantLoad = function ($, window, transport) {
             }
         }
         setTimeout(function() {
-            var minusFileName = prompt('Введите имя файла для сохранения ключевых слов', 'minus-words');
+            let minusFileName = prompt('Введите имя файла для сохранения ключевых слов', 'minus-words');
             if(minusFileName != null) {
                 if($.trim(minusFileName) == '') {
                     log.show('Неверно указано имя файла', 'warning');
