@@ -43,7 +43,7 @@
   ],
   "version": "1.0.0",
   "name": "Wordstat Web-Assistant",
-  "description": "SEO-плагин, значительно ускоряющий сбор слов с помощью сервиса wordstat.yandex.ru",
+  "description": "Уникальный плагин, значительно ускоряющий процесс сбора ключевых слов и минус слов в сервисе wordstat.yandex.ru",
   "icons": {
     "128": "images/logo.png",
     "16": "images/logo.png",
