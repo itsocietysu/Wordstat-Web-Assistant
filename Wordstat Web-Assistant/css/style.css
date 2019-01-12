@@ -1,28 +1,16 @@
 
 @font-face {
     font-family: 'DinTextProRegular'; 
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/dintextpro.ttf') 
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/dintextpro.ttf')
 }
 @font-face {
 	font-family: 'Helvetica_Bold';
-	src: url('chrome-extension://__MSG_@@extension_id__/fonts/Helvetica-Bold.ttf') 
-}
-/*-------------------------------------------------------------------------------------------*/
-/* Ряд без отступов */
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-
-  > .col,
-  > [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0;
-  }
+	src: url('chrome-extension://__MSG_@@extension_id__/fonts/Helvetica-Bold.ttf')
 }
 /*-------------------------------------------------------------------------------------------*/
 #main {
-	padding-right: 0px;
-	padding-left: 0px;
+	padding-right: 0;
+	padding-left: 0;
 	left: 1%;
 	width: 15%;
 	min-width: 130px;
@@ -59,15 +47,15 @@
 	top: 80px;
 	width: 16%;
 	right: 4%;
-	padding-right: 0px;
-	padding-left: 0px;
+	padding-right: 0;
+	padding-left: 0;
 	max-width: 350px;
 	min-width: 120px;
 	z-index: 10;
 	position:fixed;
 }
 .addWindow {
-	padding: 0px 0px 0px 0px;
+	padding: 0 0 0 0;
 	position: relative;
 	display: block;
 	width: 100%;
@@ -102,14 +90,14 @@
     box-shadow: none;
     resize: none;
 
-	font-family: 'DinTextProRegular';
+	font-family: 'DinTextProRegular', sans-serif;
 	font-size: 10px;
 
 	width: 85%;
 	height: auto;
 	min-height: 70px;
 	max-height: 140px;
-	overflow-y:  auto;
+
 }
 
 .button-wrap {
@@ -120,10 +108,11 @@
 	margin-left: 50%;
 	margin-bottom: 5%;
 	width:45%;
+	text-align: center;
 }
 .button-window-add {
 	font-weight: normal;
-	font-family: 'DinTextProRegular';
+	font-family: 'DinTextProRegular', sans-serif;
 	font-size: 10px;
 }
 
@@ -149,7 +138,7 @@
 .input-frequency {
 	width: 42%;
 	background-color: rgba(216, 216, 216, 1);
-	font-family: 'DinTextProRegular';
+	font-family: 'DinTextProRegular', sans-serif;
 	font-size: calc(8px + 0.65vw);
 	position: relative;
 	margin-bottom: 5%;
@@ -334,16 +323,16 @@
 
 
 .action-button-i-logo {
-    background: url('https://image.ibb.co/iCjHhq/logo.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/logo.png') no-repeat center center;
     background-size: cover; 
 }
 
 #action-button-i-range  {
-    background: url('https://image.ibb.co/ke4Hhq/range.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/range.png') no-repeat center center;
     background-size: cover; 
 }
 #action-button-i-range:hover {
-	background: url('https://image.ibb.co/k9n9xq/range2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/range2.png') no-repeat center center;
 	background-size: cover;
 }
 #action-button-div-range::before {
@@ -353,30 +342,30 @@
 }
 
 #action-button-i-export {
-    background: url('https://image.ibb.co/drab8V/export.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/export.png') no-repeat center center;
     background-size: cover; 
 }
 #action-button-i-export:hover {
-	background: url('https://image.ibb.co/byUYOV/export2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/export2.png') no-repeat center center;
 	background-size: cover;
 }
 
 
 .action-button-i-add {
-    background: url('https://image.ibb.co/j54pCq/add.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/add.png') no-repeat center center;
     background-size: cover; 
 }
 .action-button-i-add:hover {
-	background: url('https://image.ibb.co/kWXH0A/add2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/add2.png') no-repeat center center;
 	background-size: cover;
 }
 
 .action-button-i-download {
-    background: url('https://image.ibb.co/kHbQkA/dawnload.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/download.png') no-repeat center center;
     background-size: cover; 
 }
 .action-button-i-download:hover {
-	background: url('https://image.ibb.co/b6fC0A/download2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/download2.png') no-repeat center center;
 	background-size: cover;
 }
 
@@ -389,20 +378,20 @@
 
 
 .action-button-i-copy {
-    background: url('https://image.ibb.co/d38cyV/copy.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/copy.png') no-repeat center center;
     background-size: cover; 
 }
 .action-button-i-copy:hover {
-	background: url('https://image.ibb.co/kY1N5L/copy2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/copy2.png') no-repeat center center;
 	background-size: cover;
 }
 
 .action-button-i-copy-range {
-    background: url('https://image.ibb.co/g38XXq/copy-range.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/copy_range.png') no-repeat center center;
     background-size: cover; 
 }
 .action-button-i-copy-range:hover {
-	background: url('https://image.ibb.co/k1AO7q/copy-range2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/copy_range2.png') no-repeat center center;
 	background-size: cover;
 }
 
@@ -413,11 +402,11 @@
 	padding-top: 110%; 
 }
 .action-button-i-delete {
-    background: url('https://image.ibb.co/iChy5A/delete.png') no-repeat center center; 
+    background: url('chrome-extension://__MSG_@@extension_id__/images/icons/delete.png') no-repeat center center;
     background-size: cover; 
 }
 .action-button-i-delete:hover {
-	background: url('https://image.ibb.co/eACdOV/delete2.png') no-repeat center center;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/icons/delete2.png') no-repeat center center;
 	background-size: cover;
 }
 
@@ -455,8 +444,8 @@
 	width: 15%; 
 	max-width: 350px;
 	min-width: 130px;
-	padding-right: 0px;
-	padding-left: 0px;
+	padding-right: 0;
+	padding-left: 0;
 	top: 5px;
 	left: 1%;
 	z-index: 9998; 
@@ -484,7 +473,7 @@
 }
 .show-notification {
 	margin: 5px 5px 5px 5px;
-	font-family: 'DinTextProRegular';
+	font-family: 'DinTextProRegular', sans-serif;
 	font-size: 15px;
 	text-align: center;
 	vertical-align: middle;
@@ -520,7 +509,7 @@
 .span-title-words {
 	position: absolute;
 	margin-left: 10%;
-	font-family: 'Helvetica_Bold';
+	font-family: 'Helvetica_Bold', sans-serif;
 	font-weight: bold;
 	font-size: 12px;
 	white-space: nowrap;
@@ -556,13 +545,13 @@
 	min-height: 80px;
 	max-height: 140px;
 	overflow-y:  auto;
-	padding: 8px 0px 0px 12px;
+	padding: 8px 0 0 12px;
 }
 .list-group li {
 	padding-top: 5px;
 	
 	position: relative;
-	font-family: "DinTextProRegular";
+	font-family: "DinTextProRegular", sans-serif;
 	font-size: 13px;
 }
 .li-wrap {

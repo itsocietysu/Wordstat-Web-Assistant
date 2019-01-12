@@ -116,12 +116,12 @@ let wordstatWebAssistantLoad = function ($, window, transport) {
           '</div>' +      
           '<div class="row no-gutters">' +
             '<div class="col word-add-col">' +
-                '<input class="input-frequency" id="input-from" placeholder="от"></input><input class="input-frequency" id="input-to" placeholder="до"></input>' +
+                '<input class="input-frequency" id="input-from" placeholder="от"><input class="input-frequency" id="input-to" placeholder="до">' +
             '</div>' +
            '</div>' +
             '<div class="row no-gutters">' +
                 '<div class="col word-add-col">' +
-                    '<div class="button-wrap"><center><b class="button-window-add" id="button-apply">Применить</b></center></div>' +
+                    '<div class="button-wrap"><b class="button-window-add" id="button-apply">Применить</b></div>' +
                 '</div>' +
             '</div>' +
         '</div>' +
@@ -143,7 +143,7 @@ let wordstatWebAssistantLoad = function ($, window, transport) {
            '</div>' +
             '<div class="row no-gutters">' +
                 '<div class="col word-add-col">' +
-                    '<div class="button-wrap"><center><b class="button-window-add" id="button-add">Добавить</b></center></div>' +
+                    '<div class="button-wrap"><b class="button-window-add" id="button-add">Добавить</b></div>' +
                 '</div>' +
             '</div>' +
         '</div>' +
@@ -166,7 +166,7 @@ let wordstatWebAssistantLoad = function ($, window, transport) {
            '</div>' +
             '<div class="row no-gutters">' +
                 '<div class="col word-add-col">' +
-                    '<div class="button-wrap"><center><b class="button-window-add" id="button-add-minus">Добавить</b></center></div>' +
+                    '<div class="button-wrap"><b class="button-window-add" id="button-add-minus">Добавить</b></div>' +
                 '</div>' +
             '</div>' +
         '</div>' +
@@ -993,10 +993,8 @@ let wordstatWebAssistantLoad = function ($, window, transport) {
 /*-------------------------------------------------------------------------------------------*/
     // Добавление кнопок и парсинг фразы
     let addActionButtons = function () {
-
         observerAdd.disconnect();
-        
-        // Костыль
+
         $(".b-icon_type_question").remove();
 
         // Кнопки добавления / удаления фраз
@@ -1160,16 +1158,15 @@ let wordstatWebAssistantLoad = function ($, window, transport) {
         observerAdd.observe(target, observerOptions);
     };
 
+    addActionButtons();
     doObserverAdd();
-
-
 
 /*-------------------------------------------------------------------------------------------*/
     // ДЕЙСТВИЯ ПРИ КЛИКЕ НА ИКОНКИ
 
     // Логотип - ссылка на сайт
     $('.action-button-div-logo').click(function() {
-       window.open('https://rocont.ru/');
+       window.open('https://soft.rocont.ru/');
     });
     // Удаление елемента из списка
     $('#list-group-plus').on('click', '.words-del-div', function () {

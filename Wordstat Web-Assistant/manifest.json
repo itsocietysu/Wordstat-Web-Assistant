@@ -35,11 +35,28 @@
       ]
     }
   ],
+
   
   "web_accessible_resources": [
     "css/style.css",
     "fonts/Helvetica-Bold.ttf",
-    "fonts/dintextpro.ttf"
+    "fonts/dintextpro.ttf",
+    "images/logo.png",
+    "images/icons/add.png",
+    "images/icons/add2.png",
+    "images/icons/copy.png",
+    "images/icons/copy2.png",
+    "images/icons/copy_range.png",
+    "images/icons/copy_range2.png",
+    "images/icons/delete.png",
+    "images/icons/delete2.png",
+    "images/icons/download.png",
+    "images/icons/download2.png",
+    "images/icons/export.png",
+    "images/icons/export2.png",
+    "images/icons/range.png",
+    "images/icons/range2.png",
+    "images/icons/minus.png"
   ],
   "version": "1.0.0",
   "name": "Wordstat Web-Assistant",
